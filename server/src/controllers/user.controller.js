@@ -1,5 +1,7 @@
+const jwt = require("jsonwebtoken");
 const prisma = require("../lib/prisma");
 const bcrypt = require("bcrypt");
+const generateToken = require("../utils/generateToken");
 
 const ApiResponse = require("../utils/ApiResponse");
 const ApiError = require("../utils/ApiError");
@@ -53,6 +55,108 @@ const registerUser = asyncHandler(async (req, res) => {
 
 });
 
+const loginUser = asyncHandler(async (req, res) => {
+    console.log("1. Login API called");
+
+    const { email, password } = req.body;
+    console.log("2. Body:", email);
+
+    if (!email || !password) {
+        throw new ApiError(400, "Email and password are required");
+    }
+
+    console.log("3. Finding user...");
+
+    const user = await prisma.user.findUnique({
+        where: { email }
+    });
+
+    console.log("4. User:", user);
+
+    if (!user) {
+        throw new ApiError(401, "Invalid email or password");
+    }
+
+    console.log("5. Comparing password...");
+
+    const isPasswordCorrect = await bcrypt.compare(
+        password,
+        user.password
+    );
+
+    console.log("6. Result:", isPasswordCorrect);
+
+    if (!isPasswordCorrect) {
+        throw new ApiError(401, "Invalid email or password");
+    }
+
+    const token = generateToken(user);
+
+    console.log("7. Sending response");
+
+   return res.status(200).json(
+    new ApiResponse(
+        200,
+        "Login successful",
+        {
+            token,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email
+            }
+        }
+    )
+);
+
+});
+
+const getProfile = asyncHandler(async (req, res) => {
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: req.user.id
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            createdAt: true
+        }
+    });
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "Profile fetched successfully",
+            user
+        )
+    );
+});
+
+const createResume = asyncHandler(async (req, res) => {
+
+    const {
+        title,
+        summary,
+        education,
+        experience,
+        skills,
+        projects,
+        certifications,
+        languages,
+        template
+    } = req.body;
+
+    if (!title) {
+        throw new ApiError(400, "Resume title is required");
+    }
+
+});
+
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser,
+    getProfile
 };
