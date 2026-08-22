@@ -22,6 +22,10 @@ app.use(morgan("dev"));
 
 app.use("/api/v1", routes);
 
+const resumeRouter = require("./routes/resume.routes");
+
+app.use("/api/v1/resumes", resumeRouter);
+
 const notFound = require("./middlewares/notFound.middleware");
 
 app.use(notFound);

@@ -42,4 +42,10 @@ router.delete(
     deleteResume
 );
 
+router.patch(
+    "/:id",
+    authenticateUser,
+    updateResume
+);
+
 module.exports = router;

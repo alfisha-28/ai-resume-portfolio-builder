@@ -6,36 +6,18 @@ const asyncHandler = require("../utils/asyncHandler");
 
 const createResume = asyncHandler(async (req, res) => {
 
-    const {
-        title,
-        summary,
-        education,
-        experience,
-        skills,
-        projects,
-        certifications,
-        languages,
-        template
-    } = req.body;
-
+    const { title } = req.body;
+    
     if (!title) {
         throw new ApiError(400, "Resume title is required");
     }
 
     const resume = await prisma.resume.create({
-        data: {
-            title,
-            summary,
-            education,
-            experience,
-            skills,
-            projects,
-            certifications,
-            languages,
-            template,
-            userId: req.user.id
-        }
-    });
+    data: {
+        ...req.body,
+        userId: req.user.id,
+    },
+});
 
     return res.status(201).json(
         new ApiResponse(
@@ -112,7 +94,9 @@ const updateResume = asyncHandler(async (req, res) => {
         where: {
             id
         },
-        data: req.body
+       data: {
+    ...req.body,
+}
     });
 
     return res.status(200).json(

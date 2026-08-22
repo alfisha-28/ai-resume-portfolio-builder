@@ -12,32 +12,34 @@ model User {
   name      String
   email     String   @unique
   password  String
-
-  // One user can have many resumes
-  resumes   Resume[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  resumes   Resume[]
 }
 
 model Resume {
-  id              String   @id @default(cuid())
-
-  title           String
-  summary         String?
-
-  education       Json?
-  experience      Json?
-  skills          Json?
-  projects        Json?
-  certifications  Json?
-  languages       Json?
-
-  template        String   @default("modern")
-
-  userId          String
-  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  summary        String?
+  education      Json?
+  experience     Json?
+  skills         Json?
+  projects       Json?
+  certifications Json?
+  languages      Json?
+  template       String   @default("modern")
+  userId         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  achievements   Json?
+  email          String?
+  fullName       String?
+  github         String?
+  interests      Json?
+  jobTitle       String?
+  linkedin       String?
+  location       String?
+  phone          String?
+  portfolio      String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

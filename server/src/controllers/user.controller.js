@@ -125,6 +125,8 @@ const getProfile = asyncHandler(async (req, res) => {
         }
     });
 
+    res.set("Cache-Control", "no-store");
+
     return res.status(200).json(
         new ApiResponse(
             200,
