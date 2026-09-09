@@ -7,17 +7,19 @@ import { calculateResumeCompletion } from "@/utils/resumeCompletion";
 
 interface ResumeGridProps {
   resumes: Resume[];
+  onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
+  onCreate: () => void;
 }
 
 export default function ResumeGrid({
   resumes,
+  onDelete,
+  onDuplicate,
+  onCreate,
 }: ResumeGridProps) {
   if (resumes.length === 0) {
-    return (
-      <ResumeEmptyState
-        onCreate={() => console.log("Create Resume")}
-      />
-    );
+    return <ResumeEmptyState onCreate={onCreate} />;
   }
 
   return (
@@ -38,6 +40,8 @@ export default function ResumeGrid({
           template={resume.template}
           completion={calculateResumeCompletion(resume).percentage}
           updatedAt={resume.updatedAt}
+          onDelete={onDelete}
+          onDuplicate={onDuplicate}
         />
       ))}
     </div>

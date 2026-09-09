@@ -15,14 +15,13 @@ export default function CreateResumeButton({
     <button
       disabled={loading}
       onClick={onClick}
-      className="..."
+      className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-medium text-white transition hover:bg-blue-700 disabled:opacity-60"
     >
       {loading ? (
         <Loader2 size={18} className="animate-spin" />
       ) : (
         <Plus size={18} />
       )}
-
       {loading ? "Creating..." : "Create Resume"}
     </button>
   );

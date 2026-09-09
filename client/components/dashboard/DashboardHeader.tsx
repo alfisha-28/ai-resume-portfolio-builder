@@ -1,10 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { Plus } from "lucide-react";
 import CreateResumeButton from "./CreateResumeButton";
 
-export default function DashboardHeader() {
+interface DashboardHeaderProps {
+  onCreate: () => void;
+  creating?: boolean;
+}
+
+export default function DashboardHeader({
+  onCreate,
+  creating = false,
+}: DashboardHeaderProps) {
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
@@ -19,10 +25,9 @@ export default function DashboardHeader() {
       </div>
 
       <CreateResumeButton
-    onClick={() => {
-        console.log("Create Resume");
-    }}
-/>
+        onClick={onCreate}
+        loading={creating}
+      />
 
     </div>
   );

@@ -10,6 +10,21 @@ interface ResumeCardProps {
   template: string;
   completion: number;
   updatedAt: string;
+  onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
+}
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return "—";
+  try {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
 }
 
 export default function ResumeCard({
@@ -18,6 +33,8 @@ export default function ResumeCard({
   template,
   completion,
   updatedAt,
+  onDelete,
+  onDuplicate,
 }: ResumeCardProps) {
   return (
     <div
@@ -43,9 +60,11 @@ export default function ResumeCard({
             </div>
 
             <div>
-              <h2 className="font-semibold text-lg">{title}</h2>
+              <h2 className="font-semibold text-lg leading-tight">
+                {title || "Untitled Resume"}
+              </h2>
 
-              <div className="mt-1 flex items-center gap-2 text-gray-500 text-sm">
+              <div className="mt-1 flex items-center gap-2 text-gray-500 text-sm capitalize">
                 <LayoutTemplate size={15} />
                 {template}
               </div>
@@ -54,20 +73,20 @@ export default function ResumeCard({
 
           <ResumeActions
             resumeId={id}
-            onDelete={() => console.log("Delete", id)}
-            onDuplicate={() => console.log("Duplicate", id)}
+            onDelete={() => onDelete(id)}
+            onDuplicate={() => onDuplicate(id)}
           />
         </div>
 
         <div className="mt-6">
           <div className="flex justify-between text-sm mb-2">
-            <span>Completion</span>
-            <span>{completion}%</span>
+            <span className="text-gray-600">Completion</span>
+            <span className="font-medium">{completion}%</span>
           </div>
 
           <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
             <div
-              className="h-full bg-blue-600 rounded-full transition-all"
+              className="h-full bg-blue-600 rounded-full transition-all duration-500"
               style={{ width: `${completion}%` }}
             />
           </div>
@@ -77,7 +96,7 @@ export default function ResumeCard({
       <div className="mt-6 flex items-center justify-between">
         <div className="flex items-center gap-2 text-gray-500 text-sm">
           <CalendarDays size={15} />
-          {updatedAt}
+          {formatDate(updatedAt)}
         </div>
 
         <Link

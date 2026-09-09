@@ -1,0 +1,55 @@
+
+> client@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.11 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.103:3000
+- Environments: .env.local
+✓ Ready in 355ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of d:\Projects\React Projects\ai-resume-portfolio-builder\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * d:\Projects\React Projects\ai-resume-portfolio-builder\client\package-lock.json
+
+
+○ Compiling / ...
+ GET / 200 in 3.9s (next.js: 3.5s, application-code: 423ms)
+ GET /dashboard 200 in 2.1s (next.js: 1893ms, application-code: 229ms)
+ GET /login 200 in 1973ms (next.js: 1825ms, application-code: 149ms)
+✓ Compiled in 179ms
+✓ Compiled in 139ms
+✓ Compiled in 129ms
+✓ Compiled in 126ms
+ GET /register 200 in 946ms (next.js: 877ms, application-code: 68ms)
+✓ Compiled in 54ms
+ GET /register 200 in 188ms (next.js: 60ms, application-code: 127ms)
+ GET /register 200 in 100ms (next.js: 3ms, application-code: 97ms)
+ GET /register 200 in 100ms (next.js: 18ms, application-code: 82ms)
+ GET /register 200 in 101ms (next.js: 4ms, application-code: 97ms)
+ GET /register 200 in 100ms (next.js: 35ms, application-code: 64ms)
+ GET /register 200 in 123ms (next.js: 4ms, application-code: 120ms)
+ GET /register 200 in 106ms (next.js: 3ms, application-code: 102ms)
+ GET /register 200 in 108ms (next.js: 5ms, application-code: 103ms)
+ GET /register 200 in 102ms (next.js: 4ms, application-code: 97ms)
+ GET /register 200 in 101ms (next.js: 21ms, application-code: 80ms)
+ GET /register 200 in 101ms (next.js: 41ms, application-code: 61ms)
+ GET /register 200 in 102ms (next.js: 4ms, application-code: 98ms)
+ GET /register 200 in 118ms (next.js: 4ms, application-code: 114ms)
+ GET /register 200 in 104ms (next.js: 4ms, application-code: 99ms)
+ GET /register 200 in 100ms (next.js: 3ms, application-code: 97ms)
+ GET /register 200 in 100ms (next.js: 17ms, application-code: 83ms)
+ GET /register 200 in 86ms (next.js: 4ms, application-code: 81ms)
+ GET /register 200 in 101ms (next.js: 2ms, application-code: 99ms)
+ GET /register 200 in 117ms (next.js: 3ms, application-code: 114ms)
+ GET /register 200 in 100ms (next.js: 3ms, application-code: 97ms)
+ GET /register 200 in 98ms (next.js: 3ms, application-code: 94ms)
+ GET /register 200 in 98ms (next.js: 20ms, application-code: 78ms)
+ GET /register 200 in 82ms (next.js: 6ms, application-code: 76ms)
+ GET /register 200 in 62ms (next.js: 1983µs, application-code: 60ms)
+ GET /register 200 in 43ms (next.js: 3ms, application-code: 40ms)
+ GET /register 200 in 25ms (next.js: 3ms, application-code: 22ms)
+
+d:\Projects\React Projects\ai-resume-portfolio-builder\client>

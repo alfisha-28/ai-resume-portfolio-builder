@@ -2,6 +2,7 @@
 
 import SectionCard from "./SectionCard";
 import { useResume } from "@/context/ResumeContext";
+import AIExperienceEnhancer from "@/components/ai/AIExperienceEnhancer";
 
 export default function ExperienceForm() {
   const { resumeData, setResumeData } = useResume();
@@ -181,16 +182,20 @@ export default function ExperienceForm() {
 
             </label>
 
+            <div className="flex justify-between items-center mb-1">
+              <label className="text-sm font-medium text-gray-600">Responsibilities</label>
+              <AIExperienceEnhancer
+                description={exp.description}
+                jobTitle={exp.jobTitle}
+                onResult={(text) => handleChange(exp.id, "description", text)}
+              />
+            </div>
             <textarea
               rows={5}
               placeholder="Responsibilities..."
               value={exp.description}
               onChange={(e) =>
-                handleChange(
-                  exp.id,
-                  "description",
-                  e.target.value
-                )
+                handleChange(exp.id, "description", e.target.value)
               }
               className="w-full border rounded-lg p-3 resize-none"
             />

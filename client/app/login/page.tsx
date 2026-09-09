@@ -25,26 +25,13 @@ export default function LoginPage() {
  const onSubmit = async (data: LoginFormData) => {
   try {
     setLoading(true);
-
     const response = await loginUser(data);
-
-    console.log(response);
-
-    localStorage.setItem(
-      "token",
-      response.data.token
-    );
-
+    localStorage.setItem("token", response.data.token);
     toast.success(response.message);
-
     router.push("/dashboard");
-
-  } catch (error: any) {
-
-    toast.error(
-      error.response?.data?.message || "Login Failed"
-    );
-
+  } catch (error: unknown) {
+    const err = error as { response?: { data?: { message?: string } } };
+    toast.error(err.response?.data?.message || "Login failed");
   } finally {
     setLoading(false);
   }

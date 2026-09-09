@@ -1,22 +1,10 @@
-import api from "@/lib/axios";
-import type { Resume } from "@/types/resume";
+// This file is intentionally kept as a re-export shim.
+// All resume operations have been consolidated into resume.service.ts.
+// This file can be safely deleted. It remains to avoid breaking any
+// accidental imports during transition.
 
-export const getDashboardResumes = async (): Promise<Resume[]> => {
-  const response = await api.get("/resumes");
-
-  return response.data.data;
-};
-
-export const deleteResume = async (id: string) => {
-  const response = await api.delete(`/resumes/${id}`);
-
-  return response.data;
-};
-
-export const createResume = async () => {
-  const response = await api.post("/resumes", {
-    title: "Untitled Resume",
-  });
-
-  return response.data.data;
-};
+export {
+  getResumes as getDashboardResumes,
+  createResume,
+  deleteResume,
+} from "./resume.service";

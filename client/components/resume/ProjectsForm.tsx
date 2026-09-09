@@ -2,6 +2,7 @@
 
 import SectionCard from "./SectionCard";
 import { useResume } from "@/context/ResumeContext";
+import AIProjectGenerator from "@/components/ai/AIProjectGenerator";
 
 export default function ProjectsForm() {
   const { resumeData, setResumeData } = useResume();
@@ -85,16 +86,20 @@ export default function ProjectsForm() {
               className="w-full border rounded-lg p-3"
             />
 
+            <div className="flex justify-between items-center mb-1">
+              <label className="text-sm font-medium text-gray-600">Description</label>
+              <AIProjectGenerator
+                description={project.description}
+                title={project.title}
+                onResult={(text) => handleChange(project.id, "description", text)}
+              />
+            </div>
             <textarea
               rows={4}
               placeholder="Project Description"
               value={project.description}
               onChange={(e) =>
-                handleChange(
-                  project.id,
-                  "description",
-                  e.target.value
-                )
+                handleChange(project.id, "description", e.target.value)
               }
               className="w-full border rounded-lg p-3"
             />
