@@ -11,10 +11,28 @@ interface ResumeGridProps {
   onDuplicate: (id: string) => void;
   onRename: (id: string, newTitle: string) => void;
   onCreate: () => void;
+  searchQuery?: string;
+  onClearSearch?: () => void;
 }
 
-export default function ResumeGrid({ resumes, onDelete, onDuplicate, onRename, onCreate }: ResumeGridProps) {
-  if (resumes.length === 0) return <ResumeEmptyState onCreate={onCreate} />;
+export default function ResumeGrid({
+  resumes,
+  onDelete,
+  onDuplicate,
+  onRename,
+  onCreate,
+  searchQuery,
+  onClearSearch,
+}: ResumeGridProps) {
+  if (resumes.length === 0) {
+    return (
+      <ResumeEmptyState
+        onCreate={onCreate}
+        searchQuery={searchQuery}
+        onClearSearch={onClearSearch}
+      />
+    );
+  }
 
   return (
     <div className="grid gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">

@@ -12,6 +12,7 @@ import DashboardToolbar from "@/components/dashboard/DashboardToolbar";
 import ResumeGrid from "@/components/dashboard/ResumeGrid";
 import DashboardSkeleton from "@/components/dashboard/DashboardSkeleton";
 import DashboardError from "@/components/dashboard/DashboardError";
+import ConfirmModal from "@/components/ui/ConfirmModal";
 
 import { useDashboard } from "@/hooks/useDashboard";
 import {
@@ -30,6 +31,7 @@ export default function DashboardPage() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("updated");
   const [creating, setCreating] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const {
     data: resumes = [] as Resume[],
@@ -53,23 +55,22 @@ export default function DashboardPage() {
   }, [router, queryClient]);
 
   // ─── Delete ────────────────────────────────────────────────────────────────
-  const handleDelete = useCallback(
-    async (id: string) => {
-      const confirmed = window.confirm(
-        "Are you sure you want to delete this resume? This action cannot be undone."
-      );
-      if (!confirmed) return;
+  const requestDelete = useCallback((id: string) => {
+    setDeletingId(id);
+  }, []);
 
-      try {
-        await deleteResume(id);
-        await queryClient.invalidateQueries({ queryKey: ["resumes"] });
-        toast.success("Resume deleted.");
-      } catch {
-        toast.error("Failed to delete resume. Please try again.");
-      }
-    },
-    [queryClient]
-  );
+  const confirmDelete = useCallback(async () => {
+    if (!deletingId) return;
+    try {
+      await deleteResume(deletingId);
+      await queryClient.invalidateQueries({ queryKey: ["resumes"] });
+      toast.success("Resume deleted.");
+    } catch {
+      toast.error("Failed to delete resume. Please try again.");
+    } finally {
+      setDeletingId(null);
+    }
+  }, [deletingId, queryClient]);
 
   // ─── Duplicate ─────────────────────────────────────────────────────────────
   const handleDuplicate = useCallback(
@@ -162,12 +163,26 @@ export default function DashboardPage() {
         {!isLoading && !isError && (
           <ResumeGrid
             resumes={filteredResumes}
-            onDelete={handleDelete}
+            onDelete={requestDelete}
             onDuplicate={handleDuplicate}
             onRename={handleRename}
             onCreate={handleCreate}
+            searchQuery={search}
+            onClearSearch={() => setSearch("")}
           />
         )}
+
+        {/* Destructive Resume Deletion Confirmation */}
+        <ConfirmModal
+          isOpen={Boolean(deletingId)}
+          onClose={() => setDeletingId(null)}
+          onConfirm={confirmDelete}
+          title="Delete Resume"
+          message="Are you sure you want to delete this resume? All written sections, ATS score history, and customizations will be permanently removed. This action cannot be undone."
+          confirmText="Delete Resume"
+          cancelText="Cancel"
+          variant="danger"
+        />
       </div>
     </DashboardLayout>
   );
