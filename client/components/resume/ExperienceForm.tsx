@@ -185,10 +185,16 @@ export default function ExperienceForm() {
             <div className="flex justify-between items-center mb-1">
               <label className="text-sm font-medium text-gray-600">Responsibilities</label>
               <AIExperienceEnhancer
+<<<<<<< HEAD
                 jobTitle={exp.jobTitle}
                 company={exp.company}
                 description={exp.description}
                 onEnhanced={(text) => handleChange(exp.id, "description", text)}
+=======
+                description={exp.description}
+                jobTitle={exp.jobTitle}
+                onResult={(text) => handleChange(exp.id, "description", text)}
+>>>>>>> origin/main
               />
             </div>
             <textarea
@@ -196,11 +202,7 @@ export default function ExperienceForm() {
               placeholder="Responsibilities..."
               value={exp.description}
               onChange={(e) =>
-                handleChange(
-                  exp.id,
-                  "description",
-                  e.target.value
-                )
+                handleChange(exp.id, "description", e.target.value)
               }
               className="w-full border rounded-lg p-3 resize-none"
             />

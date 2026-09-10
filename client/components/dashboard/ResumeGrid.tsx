@@ -9,16 +9,21 @@ interface ResumeGridProps {
   resumes: Resume[];
   onDelete: (id: string) => void;
   onDuplicate: (id: string) => void;
+<<<<<<< HEAD
   onRename: (id: string, newTitle: string) => void;
   onCreate: () => void;
   searchQuery?: string;
   onClearSearch?: () => void;
+=======
+  onCreate: () => void;
+>>>>>>> origin/main
 }
 
 export default function ResumeGrid({
   resumes,
   onDelete,
   onDuplicate,
+<<<<<<< HEAD
   onRename,
   onCreate,
   searchQuery,
@@ -32,6 +37,12 @@ export default function ResumeGrid({
         onClearSearch={onClearSearch}
       />
     );
+=======
+  onCreate,
+}: ResumeGridProps) {
+  if (resumes.length === 0) {
+    return <ResumeEmptyState onCreate={onCreate} />;
+>>>>>>> origin/main
   }
 
   return (
@@ -46,7 +57,10 @@ export default function ResumeGrid({
           updatedAt={resume.updatedAt}
           onDelete={onDelete}
           onDuplicate={onDuplicate}
+<<<<<<< HEAD
           onRename={onRename}
+=======
+>>>>>>> origin/main
         />
       ))}
     </div>

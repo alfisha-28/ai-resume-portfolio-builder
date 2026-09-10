@@ -8,7 +8,10 @@ interface ResumeActionsProps {
   resumeId: string;
   onDelete: () => void;
   onDuplicate: () => void;
+<<<<<<< HEAD
   onRename: () => void;
+=======
+>>>>>>> origin/main
 }
 
 export default function ResumeActions({ resumeId, onDelete, onDuplicate, onRename }: ResumeActionsProps) {
@@ -20,12 +23,32 @@ export default function ResumeActions({ resumeId, onDelete, onDuplicate, onRenam
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
+<<<<<<< HEAD
+=======
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+>>>>>>> origin/main
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+<<<<<<< HEAD
   const action = (fn: () => void) => () => { setOpen(false); fn(); };
+=======
+  const handleDelete = () => {
+    setOpen(false);
+    onDelete();
+  };
+
+  const handleDuplicate = () => {
+    setOpen(false);
+    onDuplicate();
+  };
+>>>>>>> origin/main
 
   return (
     <div className="relative" ref={menuRef}>
@@ -42,14 +65,25 @@ export default function ResumeActions({ resumeId, onDelete, onDuplicate, onRenam
           <Link
             href={`/dashboard/resume/edit/${resumeId}`}
             onClick={() => setOpen(false)}
+<<<<<<< HEAD
             className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-gray-700 text-sm"
+=======
+            className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-gray-700"
+>>>>>>> origin/main
           >
             <Edit size={15} /> Edit Resume
           </Link>
+<<<<<<< HEAD
           <Link
             href={`/dashboard/resume/${resumeId}/match`}
             onClick={() => setOpen(false)}
             className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-700 text-sm font-medium"
+=======
+
+          <button
+            onClick={handleDuplicate}
+            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left text-gray-700"
+>>>>>>> origin/main
           >
             <Target size={15} className="text-blue-600" /> Match Job
           </Link>
@@ -67,8 +101,13 @@ export default function ResumeActions({ resumeId, onDelete, onDuplicate, onRenam
             <Pencil size={15} /> Rename
           </button>
           <button
+<<<<<<< HEAD
             onClick={action(onDuplicate)}
             className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left text-gray-700 text-sm"
+=======
+            onClick={handleDelete}
+            className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 text-left"
+>>>>>>> origin/main
           >
             <Copy size={15} /> Duplicate
           </button>

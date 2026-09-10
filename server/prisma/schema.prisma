@@ -3,43 +3,61 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  resumes   Resume[]
+  id         String      @id @default(cuid())
+  name       String
+  email      String      @unique
+  password   String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  resumes    Resume[]
+  portfolios Portfolio[]
 }
 
 model Resume {
-  id             String   @id @default(cuid())
-  title          String
-  summary        String?
-  education      Json?
-  experience     Json?
-  skills         Json?
-  projects       Json?
-  certifications Json?
-  languages      Json?
-  template       String   @default("modern")
+  id             String      @id @default(cuid())
   userId         String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  achievements   Json?
-  email          String?
-  fullName       String?
-  github         String?
-  interests      Json?
-  jobTitle       String?
-  linkedin       String?
-  location       String?
-  phone          String?
-  portfolio      String?
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title          String      @default("Untitled Resume")
+  fullName       String      @default("")
+  jobTitle       String      @default("")
+  email          String      @default("")
+  phone          String      @default("")
+  location       String      @default("")
+  linkedin       String      @default("")
+  github         String      @default("")
+  portfolio      String      @default("")
+  summary        String      @default("")
+  template       String      @default("classic")
+
+  education      String      @default("[]")
+  experience     String      @default("[]")
+  projects       String      @default("[]")
+  skills         String      @default("[]")
+  certifications String      @default("[]")
+  languages      String      @default("[]")
+  achievements   String      @default("[]")
+  interests      String      @default("[]")
+
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  portfolios     Portfolio[]
+}
+
+model Portfolio {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resumeId  String
+  resume    Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  username  String   @unique
+  themeId   String   @default("default")
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

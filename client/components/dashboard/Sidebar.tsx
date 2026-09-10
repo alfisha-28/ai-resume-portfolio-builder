@@ -4,7 +4,11 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
+<<<<<<< HEAD
   LayoutTemplate,
+=======
+  Palette,
+>>>>>>> origin/main
   Settings,
   LogOut,
   Sparkles,
@@ -17,9 +21,27 @@ interface SidebarProps {
 }
 
 const menuItems = [
+<<<<<<< HEAD
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Templates", href: "/dashboard/templates", icon: LayoutTemplate },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
+=======
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    name: "Templates",
+    href: "/dashboard/templates",
+    icon: Palette,
+  },
+  {
+    name: "Settings",
+    href: "/dashboard/settings",
+    icon: Settings,
+  },
+>>>>>>> origin/main
 ];
 
 export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {

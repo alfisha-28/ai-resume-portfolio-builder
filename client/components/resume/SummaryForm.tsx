@@ -8,7 +8,11 @@ export default function SummaryForm() {
   const { resumeData, setResumeData } = useResume();
 
   return (
+<<<<<<< HEAD
     <SectionCard title="Professional Summary" defaultOpen>
+=======
+    <SectionCard title="Professional Summary">
+>>>>>>> origin/main
       <div className="flex justify-end mb-2">
         <AISummaryGenerator />
       </div>
@@ -17,10 +21,7 @@ export default function SummaryForm() {
         placeholder="Write a professional summary or generate one with AI..."
         value={resumeData.summary}
         onChange={(e) =>
-          setResumeData((prev) => ({
-            ...prev,
-            summary: e.target.value,
-          }))
+          setResumeData((prev) => ({ ...prev, summary: e.target.value }))
         }
         className="w-full border rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
       />

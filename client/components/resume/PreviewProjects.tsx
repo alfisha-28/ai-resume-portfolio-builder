@@ -48,18 +48,22 @@ export default function PreviewProjects() {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 mt-2">
-  {project.technologies
-    .split(",")
-    .map((tech) => (
-      <span
-        key={tech.trim()}
-        className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full"
-      >
-        {tech.trim()}
-      </span>
-    ))}
-</div>
+            {project.technologies && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {project.technologies
+                  .split(",")
+                  .map((tech) => tech.trim())
+                  .filter(Boolean)
+                  .map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+              </div>
+            )}
 
             {project.description && (
               <p className="mt-2 text-sm text-gray-600 leading-6">
