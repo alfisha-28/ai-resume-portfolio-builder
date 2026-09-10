@@ -1,6 +1,5 @@
 "use client";
 
-<<<<<<< HEAD
 import {
   createContext,
   useContext,
@@ -9,21 +8,6 @@ import {
   ReactNode,
 } from "react";
 import { ResumeData } from "@/types/resume";
-
-=======
-import { createContext, useContext, useState, ReactNode, useCallback } from "react";
-import { ResumeData } from "@/types/resume";
-
-interface ResumeContextType {
-  resumeData: ResumeData;
-  setResumeData: React.Dispatch<React.SetStateAction<ResumeData>>;
-  loadResume: (resume: ResumeData) => void;
-  updateField: <K extends keyof ResumeData>(field: K, value: ResumeData[K]) => void;
-}
-
-const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
-
->>>>>>> origin/main
 const initialResume: ResumeData = {
   title: "",
   template: "classic",
@@ -46,7 +30,6 @@ const initialResume: ResumeData = {
   interests: [],
 };
 
-<<<<<<< HEAD
 interface ResumeContextType {
   resumeData: ResumeData;
   setResumeData: React.Dispatch<React.SetStateAction<ResumeData>>;
@@ -101,24 +84,6 @@ export function ResumeProvider({
         setIsDirty,
       }}
     >
-=======
-export function ResumeProvider({ children }: { children: ReactNode }) {
-  const [resumeData, setResumeData] = useState<ResumeData>(initialResume);
-
-  const loadResume = useCallback((resume: ResumeData) => {
-    setResumeData(resume);
-  }, []);
-
-  const updateField = useCallback(<K extends keyof ResumeData>(
-    field: K,
-    value: ResumeData[K]
-  ) => {
-    setResumeData((prev) => ({ ...prev, [field]: value }));
-  }, []);
-
-  return (
-    <ResumeContext.Provider value={{ resumeData, setResumeData, loadResume, updateField }}>
->>>>>>> origin/main
       {children}
     </ResumeContext.Provider>
   );

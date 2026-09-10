@@ -89,16 +89,10 @@ export default function ProjectsForm() {
             <div className="flex justify-between items-center mb-1">
               <label className="text-sm font-medium text-gray-600">Description</label>
               <AIProjectGenerator
-<<<<<<< HEAD
                 title={project.title}
                 technologies={project.technologies}
                 description={project.description}
                 onGenerated={(text) => handleChange(project.id, "description", text)}
-=======
-                description={project.description}
-                title={project.title}
-                onResult={(text) => handleChange(project.id, "description", text)}
->>>>>>> origin/main
               />
             </div>
             <textarea

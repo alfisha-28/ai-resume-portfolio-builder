@@ -19,10 +19,7 @@ import {
   createEmptyResume,
   deleteResume,
   duplicateResume,
-<<<<<<< HEAD
   updateResume,
-=======
->>>>>>> origin/main
 } from "@/services/resume.service";
 import { calculateResumeCompletion } from "@/utils/resumeCompletion";
 import type { Resume } from "@/types/resume";
@@ -34,10 +31,7 @@ export default function DashboardPage() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("updated");
   const [creating, setCreating] = useState(false);
-<<<<<<< HEAD
   const [deletingId, setDeletingId] = useState<string | null>(null);
-=======
->>>>>>> origin/main
 
   const {
     data: resumes = [] as Resume[],
@@ -61,7 +55,6 @@ export default function DashboardPage() {
   }, [router, queryClient]);
 
   // ─── Delete ────────────────────────────────────────────────────────────────
-<<<<<<< HEAD
   const requestDelete = useCallback((id: string) => {
     setDeletingId(id);
   }, []);
@@ -78,25 +71,6 @@ export default function DashboardPage() {
       setDeletingId(null);
     }
   }, [deletingId, queryClient]);
-=======
-  const handleDelete = useCallback(
-    async (id: string) => {
-      const confirmed = window.confirm(
-        "Are you sure you want to delete this resume? This action cannot be undone."
-      );
-      if (!confirmed) return;
-
-      try {
-        await deleteResume(id);
-        await queryClient.invalidateQueries({ queryKey: ["resumes"] });
-        toast.success("Resume deleted.");
-      } catch {
-        toast.error("Failed to delete resume. Please try again.");
-      }
-    },
-    [queryClient]
-  );
->>>>>>> origin/main
 
   // ─── Duplicate ─────────────────────────────────────────────────────────────
   const handleDuplicate = useCallback(
@@ -112,7 +86,6 @@ export default function DashboardPage() {
     [queryClient]
   );
 
-<<<<<<< HEAD
   // ─── Rename ─────────────────────────────────────────────────────────────────
   const handleRename = useCallback(
     async (id: string, newTitle: string) => {
@@ -126,8 +99,6 @@ export default function DashboardPage() {
     [queryClient]
   );
 
-=======
->>>>>>> origin/main
   // ─── Filter & Sort ─────────────────────────────────────────────────────────
   const filteredResumes = useMemo(() => {
     let data = [...resumes];
@@ -188,7 +159,6 @@ export default function DashboardPage() {
         {isLoading && <DashboardSkeleton />}
 
         {isError && <DashboardError onRetry={refetch} />}
-<<<<<<< HEAD
 
         {!isLoading && !isError && (
           <ResumeGrid
@@ -213,17 +183,6 @@ export default function DashboardPage() {
           cancelText="Cancel"
           variant="danger"
         />
-=======
-
-        {!isLoading && !isError && (
-          <ResumeGrid
-            resumes={filteredResumes}
-            onDelete={handleDelete}
-            onDuplicate={handleDuplicate}
-            onCreate={handleCreate}
-          />
-        )}
->>>>>>> origin/main
       </div>
     </DashboardLayout>
   );

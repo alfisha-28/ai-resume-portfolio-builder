@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 
 import { useState } from "react";
@@ -10,8 +9,7 @@ import api from "@/lib/axios";
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { data, isLoading } = useAuth();
-  const user = data?.data;
+  const { data: user, isLoading } = useAuth();
 
   const [name, setName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -156,15 +154,6 @@ export default function SettingsPage() {
             Logout
           </button>
         </div>
-=======
-import DashboardLayout from "@/components/dashboard/DashboardLayout";
-
-export default function SettingsPage() {
-  return (
-    <DashboardLayout name="Settings">
-      <div className="rounded-xl border bg-white p-8 text-center text-gray-500">
-        Settings coming soon.
->>>>>>> origin/main
       </div>
     </DashboardLayout>
   );

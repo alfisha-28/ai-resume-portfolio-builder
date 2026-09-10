@@ -1,12 +1,6 @@
 const jwt = require("jsonwebtoken");
-<<<<<<< HEAD
-const ApiError = require("../utils/ApiError");
 
-const authenticateUser = (req, res, next) => {
-=======
-
-module.exports = function authMiddleware(req, res, next) {
->>>>>>> origin/main
+function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -17,16 +11,15 @@ module.exports = function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-<<<<<<< HEAD
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return next(new ApiError(401, "Invalid or expired token"));
-=======
-    req.userId = decoded.userId;
+    const userId = decoded.id || decoded.userId;
+    req.user = { ...decoded, id: userId, userId };
+    req.userId = userId;
     next();
   } catch {
     return res.status(401).json({ success: false, message: "Invalid or expired token" });
->>>>>>> origin/main
   }
-};
+}
+
+module.exports = authMiddleware;
+module.exports.auth = authMiddleware;
+module.exports.authenticateUser = authMiddleware;

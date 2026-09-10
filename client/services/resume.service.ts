@@ -50,11 +50,7 @@ export const createResume = async (data: Partial<ResumeData>): Promise<Resume> =
 
 export const updateResume = async (
   id: string,
-<<<<<<< HEAD
   data: Partial<ResumeData>
-=======
-  data: ResumeData
->>>>>>> origin/main
 ): Promise<Resume> => {
   const response = await api.put(`/resumes/${id}`, data);
   return normalizeResume(response.data.data);
@@ -70,11 +66,7 @@ export const duplicateResume = async (id: string): Promise<Resume> => {
 };
 
 // Auto-save alias
-<<<<<<< HEAD
 export const saveResume = (id: string, data: Partial<ResumeData>) =>
-=======
-export const saveResume = (id: string, data: ResumeData) =>
->>>>>>> origin/main
   updateResume(id, data);
 
 // Create empty resume with safe defaults

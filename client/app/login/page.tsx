@@ -22,7 +22,6 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-<<<<<<< HEAD
   const onSubmit = async (data: LoginFormData) => {
     try {
       setLoading(true);
@@ -42,22 +41,6 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-=======
- const onSubmit = async (data: LoginFormData) => {
-  try {
-    setLoading(true);
-    const response = await loginUser(data);
-    localStorage.setItem("token", response.data.token);
-    toast.success(response.message);
-    router.push("/dashboard");
-  } catch (error: unknown) {
-    const err = error as { response?: { data?: { message?: string } } };
-    toast.error(err.response?.data?.message || "Login failed");
-  } finally {
-    setLoading(false);
-  }
-};
->>>>>>> origin/main
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-slate-100">

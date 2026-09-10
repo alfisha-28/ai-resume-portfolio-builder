@@ -1,15 +1,9 @@
 "use client";
 
-<<<<<<< HEAD
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft, Download, Sparkles, Target } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
-=======
-import { RefObject } from "react";
-import { useReactToPrint } from "react-to-print";
-import { Printer } from "lucide-react";
->>>>>>> origin/main
 import SaveButton from "./SaveButton";
 import SaveStatus from "./SaveStatus";
 import { useResume } from "@/context/ResumeContext";
@@ -20,11 +14,7 @@ interface ResumeToolbarProps {
   lastSaved: Date | null;
   saveError?: boolean;
   onSave: () => void;
-<<<<<<< HEAD
   printRef: React.RefObject<HTMLDivElement | null>;
-=======
-  printRef: RefObject<HTMLDivElement | null>;
->>>>>>> origin/main
 }
 
 export default function ResumeToolbar({
@@ -35,7 +25,6 @@ export default function ResumeToolbar({
   onSave,
   printRef,
 }: ResumeToolbarProps) {
-<<<<<<< HEAD
   const params = useParams();
   const resumeId = params?.id as string | undefined;
   const { resumeData } = useResume();
@@ -95,30 +84,7 @@ export default function ResumeToolbar({
           <Download className="w-4 h-4" />
           <span className="hidden sm:inline">Export PDF</span>
         </button>
-=======
-  const handlePrint = useReactToPrint({
-    contentRef: printRef,
-    documentTitle: "Resume",
-  });
 
-  return (
-    <div className="no-print sticky top-0 z-20 bg-white border-b px-6 py-4 flex items-center justify-between">
-      <SaveStatus
-        isSaving={isSaving}
-        hasUnsavedChanges={hasUnsavedChanges}
-        lastSaved={lastSaved}
-      />
-
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => handlePrint()}
-          className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-gray-700 font-medium hover:bg-gray-50 transition"
-        >
-          <Printer size={16} />
-          Download PDF
-        </button>
-
->>>>>>> origin/main
         <SaveButton loading={isSaving} onClick={onSave} />
       </div>
     </div>

@@ -8,11 +8,7 @@ export default function SummaryForm() {
   const { resumeData, setResumeData } = useResume();
 
   return (
-<<<<<<< HEAD
     <SectionCard title="Professional Summary" defaultOpen>
-=======
-    <SectionCard title="Professional Summary">
->>>>>>> origin/main
       <div className="flex justify-end mb-2">
         <AISummaryGenerator />
       </div>

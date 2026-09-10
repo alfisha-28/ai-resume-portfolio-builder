@@ -15,7 +15,6 @@ import SectionTitle from "../resume/SectionTitle";
 export default function ModernTemplate() {
   const { resumeData } = useResume();
 
-<<<<<<< HEAD
   const contacts = [
     resumeData.email,
     resumeData.phone,
@@ -43,26 +42,6 @@ export default function ModernTemplate() {
       <div className="grid grid-cols-12">
         {/* Sidebar */}
         <aside className="col-span-4 bg-gray-50 p-6 border-r border-gray-200 text-gray-800">
-=======
-  return (
-    <div className="bg-white w-[210mm] min-h-[297mm] mx-auto shadow-xl">
-      {/* Header — white text on blue */}
-      <div className="bg-blue-700 text-white px-8 py-8">
-        <h1 className="text-3xl font-bold">{resumeData.fullName || "Your Name"}</h1>
-        <p className="text-blue-200 mt-1 text-base">{resumeData.jobTitle || "Professional Title"}</p>
-        <div className="flex flex-wrap gap-4 mt-3 text-sm text-blue-100">
-          {resumeData.email && <span>{resumeData.email}</span>}
-          {resumeData.phone && <span>{resumeData.phone}</span>}
-          {resumeData.location && <span>{resumeData.location}</span>}
-          {resumeData.linkedin && <span>{resumeData.linkedin}</span>}
-          {resumeData.github && <span>{resumeData.github}</span>}
-          {resumeData.portfolio && <span>{resumeData.portfolio}</span>}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-12">
-        <aside className="col-span-4 bg-gray-50 p-6 border-r">
->>>>>>> origin/main
           <PreviewSkills />
           <PreviewLanguages />
           <PreviewCertifications />
@@ -70,12 +49,8 @@ export default function ModernTemplate() {
           <PreviewInterests />
         </aside>
 
-<<<<<<< HEAD
         {/* Main */}
         <main className="col-span-8 p-7 text-gray-900">
-=======
-        <main className="col-span-8 p-8">
->>>>>>> origin/main
           <PreviewSummary />
           <PreviewExperience />
           <PreviewProjects />

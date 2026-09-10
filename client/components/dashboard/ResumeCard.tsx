@@ -13,24 +13,13 @@ interface ResumeCardProps {
   updatedAt: string;
   onDelete: (id: string) => void;
   onDuplicate: (id: string) => void;
-<<<<<<< HEAD
-  onRename: (id: string, newTitle: string) => void;
-=======
->>>>>>> origin/main
+  onRename?: (id: string, newTitle: string) => void;
 }
 
 function formatDate(dateStr: string): string {
   if (!dateStr) return "—";
   try {
-<<<<<<< HEAD
     return new Date(dateStr).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-=======
-    return new Date(dateStr).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
->>>>>>> origin/main
   } catch {
     return dateStr;
   }
@@ -44,17 +33,14 @@ export default function ResumeCard({
   updatedAt,
   onDelete,
   onDuplicate,
-<<<<<<< HEAD
   onRename,
-=======
->>>>>>> origin/main
 }: ResumeCardProps) {
   const [renaming, setRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState(title);
 
   const handleRenameSubmit = () => {
     const trimmed = renameValue.trim();
-    if (trimmed && trimmed !== title) onRename(id, trimmed);
+    if (trimmed && trimmed !== title && onRename) onRename(id, trimmed);
     setRenaming(false);
   };
 
@@ -76,7 +62,6 @@ export default function ResumeCard({
             <div className="rounded-xl bg-blue-50 border border-blue-100 p-3 text-blue-600 shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
               <FileText size={20} />
             </div>
-<<<<<<< HEAD
             <div className="min-w-0">
               {renaming ? (
                 <input
@@ -98,17 +83,6 @@ export default function ResumeCard({
               <div className="mt-1 flex items-center gap-1.5 text-gray-500 text-xs capitalize">
                 <LayoutTemplate size={12} className="text-gray-400" />
                 <span>{template} Template</span>
-=======
-
-            <div>
-              <h2 className="font-semibold text-lg leading-tight">
-                {title || "Untitled Resume"}
-              </h2>
-
-              <div className="mt-1 flex items-center gap-2 text-gray-500 text-sm capitalize">
-                <LayoutTemplate size={15} />
-                {template}
->>>>>>> origin/main
               </div>
             </div>
           </div>
@@ -117,11 +91,14 @@ export default function ResumeCard({
             resumeId={id}
             onDelete={() => onDelete(id)}
             onDuplicate={() => onDuplicate(id)}
-<<<<<<< HEAD
-            onRename={() => {
-              setRenameValue(title);
-              setRenaming(true);
-            }}
+            onRename={
+              onRename
+                ? () => {
+                    setRenameValue(title);
+                    setRenaming(true);
+                  }
+                : undefined
+            }
           />
         </div>
 
@@ -132,41 +109,21 @@ export default function ResumeCard({
             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${badge.text}`}>
               {completion}%
             </span>
-=======
-          />
-        </div>
-
-        <div className="mt-6">
-          <div className="flex justify-between text-sm mb-2">
-            <span className="text-gray-600">Completion</span>
-            <span className="font-medium">{completion}%</span>
->>>>>>> origin/main
           </div>
           <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
             <div
-<<<<<<< HEAD
               className={`h-full rounded-full transition-all duration-500 ${badge.bg}`}
-=======
-              className="h-full bg-blue-600 rounded-full transition-all duration-500"
->>>>>>> origin/main
               style={{ width: `${completion}%` }}
             />
           </div>
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Card Footer Actions */}
       <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-1.5 text-gray-400 text-xs">
           <CalendarDays size={13} />
           <span>{formatDate(updatedAt)}</span>
-=======
-      <div className="mt-6 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-gray-500 text-sm">
-          <CalendarDays size={15} />
-          {formatDate(updatedAt)}
->>>>>>> origin/main
         </div>
 
         <div className="flex items-center gap-2">
