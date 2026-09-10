@@ -5,24 +5,39 @@ import { useResume } from "@/context/ResumeContext";
 export default function PreviewHeader() {
   const { resumeData } = useResume();
 
+  const contacts = [
+    resumeData.email,
+    resumeData.phone,
+    resumeData.location,
+    resumeData.linkedin,
+    resumeData.github,
+    resumeData.portfolio,
+  ].filter(Boolean);
+
   return (
-    <header className="text-center pb-6 border-b border-gray-300">
-      <h1 className="text-4xl font-bold text-gray-900">
+    <header className="text-center">
+      <h1 className="text-3xl font-bold leading-tight">
         {resumeData.fullName || "Your Name"}
       </h1>
 
-      <p className="text-lg text-blue-600 mt-2">
-        {resumeData.jobTitle || "Professional Title"}
-      </p>
+      {resumeData.jobTitle && (
+        <p className="text-base mt-1 opacity-80">
+          {resumeData.jobTitle}
+        </p>
+      )}
 
-      <div className="flex flex-wrap justify-center gap-4 mt-4 text-sm text-gray-600">
-        {resumeData.email && <span>{resumeData.email}</span>}
-        {resumeData.phone && <span>{resumeData.phone}</span>}
-        {resumeData.location && <span>{resumeData.location}</span>}
-        {resumeData.linkedin && <span>{resumeData.linkedin}</span>}
-        {resumeData.github && <span>{resumeData.github}</span>}
-        {resumeData.portfolio && <span>{resumeData.portfolio}</span>}
-      </div>
+      {contacts.length > 0 && (
+        <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-3 text-xs opacity-75">
+          {contacts.map((item, i) => (
+            <span key={i} className="flex items-center gap-3">
+              {item}
+              {i < contacts.length - 1 && (
+                <span className="opacity-40">·</span>
+              )}
+            </span>
+          ))}
+        </div>
+      )}
     </header>
   );
 }

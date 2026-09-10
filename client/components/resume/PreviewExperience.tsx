@@ -48,17 +48,16 @@ export default function PreviewExperience() {
             </div>
 
             {exp.description && (
-              <div className="mt-3">
+              <div className="mt-3 space-y-1">
                 {exp.description
                   .split("\n")
                   .filter((line) => line.trim())
                   .map((line, index) => (
-                    <p
-                      key={index}
-                      className="text-sm text-gray-700 leading-6 flex"
-                    >
-                      <span className="mr-2">•</span>
-                      <span>{line}</span>
+                    <p key={index} className="text-sm text-gray-700 leading-6 flex">
+                      <span className="mr-2 shrink-0">
+                        {line.startsWith("•") ? "" : "•"}
+                      </span>
+                      <span>{line.startsWith("•") ? line.slice(1).trim() : line}</span>
                     </p>
                   ))}
               </div>

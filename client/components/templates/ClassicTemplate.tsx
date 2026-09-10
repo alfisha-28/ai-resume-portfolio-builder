@@ -13,25 +13,18 @@ import PreviewInterests from "../resume/PreviewInterests";
 
 export default function ClassicTemplate() {
   return (
-    <div className="bg-white w-[210mm] min-h-[297mm] p-10 shadow-xl mx-auto">
-      <PreviewHeader />
-
+    <div className="bg-white w-[210mm] min-h-[297mm] p-10 shadow-xl mx-auto text-gray-900">
+      <div className="pb-5 mb-2 border-b-2 border-gray-800">
+        <PreviewHeader />
+      </div>
       <PreviewSummary />
-
-      <PreviewEducation />
-
       <PreviewExperience />
-
+      <PreviewEducation />
       <PreviewProjects />
-
       <PreviewSkills />
-
       <PreviewCertifications />
-
       <PreviewLanguages />
-
       <PreviewAchievements />
-
       <PreviewInterests />
     </div>
   );

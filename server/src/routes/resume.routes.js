@@ -9,43 +9,20 @@ const {
     getAllResumes,
     getResumeById,
     updateResume,
-    deleteResume
+    deleteResume,
+    duplicateResume,
 } = require("../controllers/resume.controller");
 
-router.post(
-    "/",
-    authenticateUser,
-    createResume
-);
+router.post("/", authenticateUser, createResume);
 
-router.get(
-    "/",
-    authenticateUser,
-    getAllResumes
-);
+router.get("/", authenticateUser, getAllResumes);
 
-router.get(
-    "/:id",
-    authenticateUser,
-    getResumeById
-);
+router.get("/:id", authenticateUser, getResumeById);
 
-router.put(
-    "/:id",
-    authenticateUser,
-    updateResume
-);
+router.put("/:id", authenticateUser, updateResume);
 
-router.delete(
-    "/:id",
-    authenticateUser,
-    deleteResume
-);
+router.delete("/:id", authenticateUser, deleteResume);
 
-router.patch(
-    "/:id",
-    authenticateUser,
-    updateResume
-);
+router.post("/:id/duplicate", authenticateUser, duplicateResume);
 
 module.exports = router;

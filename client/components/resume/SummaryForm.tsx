@@ -2,15 +2,19 @@
 
 import SectionCard from "./SectionCard";
 import { useResume } from "@/context/ResumeContext";
+import AISummaryGenerator from "@/components/ai/AISummaryGenerator";
 
 export default function SummaryForm() {
   const { resumeData, setResumeData } = useResume();
 
   return (
-    <SectionCard title="Professional Summary">
+    <SectionCard title="Professional Summary" defaultOpen>
+      <div className="flex justify-end mb-2">
+        <AISummaryGenerator />
+      </div>
       <textarea
         rows={6}
-        placeholder="Write a professional summary..."
+        placeholder="Write a professional summary or generate one with AI..."
         value={resumeData.summary}
         onChange={(e) =>
           setResumeData((prev) => ({

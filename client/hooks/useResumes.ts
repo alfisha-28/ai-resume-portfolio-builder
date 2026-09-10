@@ -1,13 +1,19 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getResumes } from "@/services/resume.service";
 
 export const useResumes = () => {
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setEnabled(true);
+  }, []);
 
   return useQuery({
     queryKey: ["resumes"],
     queryFn: getResumes,
-    enabled: !!token,
+    enabled,
     retry: false,
     staleTime: 1000 * 60 * 5,
   });

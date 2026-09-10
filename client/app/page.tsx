@@ -1,11 +1,17 @@
+import Navbar from "@/components/landing/Navbar";
+import Hero from "@/components/landing/Hero";
+import Features from "@/components/landing/Features";
+import CTA from "@/components/landing/CTA";
+import Footer from "@/components/landing/Footer";
+
 export default function Home() {
   return (
-    <main>
-      <h1>AI Resume & Portfolio Builder</h1>
-
-      <p>
-        Day 2 – Project Setup Complete
-      </p>
-    </main>
+    <>
+      <Navbar />
+      <Hero />
+      <Features />
+      <CTA />
+      <Footer />
+    </>
   );
 }

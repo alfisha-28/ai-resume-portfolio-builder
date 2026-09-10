@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import CompletionProgress from "@/components/dashboard/CompletionProgress";
-
 import ResumeLayout from "@/components/resume/ResumeLayout";
 import ResumeForm from "@/components/resume/ResumeForm";
 import ResumePreview from "@/components/resume/ResumePreview";
@@ -13,88 +12,91 @@ import ResumeToolbar from "@/components/resume/ResumeToolbar";
 import TemplateSelector from "@/components/resume/TemplateSelector";
 
 import { ResumeProvider, useResume } from "@/context/ResumeContext";
-
-import {
-  getResumeById,
-  updateResume,
-} from "@/services/resume.service";
-
+import { getResumeById, updateResume } from "@/services/resume.service";
 import { useAutoSave } from "@/hooks/useAutoSave";
 
 function ResumeEditor() {
   const params = useParams();
   const resumeId = params.id as string;
-
-  const {
-    resumeData,
-    loadResume,
-  } = useResume();
-
+  const { resumeData, loadResume, isDirty, setIsDirty } = useResume();
   const [loading, setLoading] = useState(true);
-
-  const handleSave = useCallback(
-    async (data = resumeData) => {
-      await updateResume(resumeId, data);
-    },
-    [resumeId, resumeData]
-  );
-
-  const {
-    isSaving,
-    hasUnsavedChanges,
-    lastSaved,
-  } = useAutoSave({
-    data: resumeData,
-    onSave: handleSave,
-    delay: 2000,
-  });
+  const [loadError, setLoadError] = useState(false);
+  const printRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchResume = async () => {
       try {
-        const response = await getResumeById(resumeId);
-          
-
-console.log("Resume Response:", response);
-console.log("Resume Data:", response.data);
-        loadResume(response.data);
-      } catch (error) {
-        console.error("Failed to load resume:", error);
+        const resume = await getResumeById(resumeId);
+        loadResume(resume);
+      } catch {
+        setLoadError(true);
       } finally {
         setLoading(false);
       }
     };
-
     fetchResume();
   }, [resumeId, loadResume]);
 
+  const handleSave = useCallback(
+    async (data = resumeData) => {
+      await updateResume(resumeId, data);
+      setIsDirty(false);
+    },
+    // resumeData intentionally excluded — useAutoSave passes current data via param
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [resumeId, setIsDirty]
+  );
+
+  const { isSaving, hasUnsavedChanges, lastSaved, saveError, manualSave } = useAutoSave({
+    data: resumeData,
+    onSave: handleSave,
+    delay: 2000,
+    enabled: !loading && !loadError && isDirty,
+  });
+
   if (loading) {
     return (
-      <DashboardLayout name="Resume Builder">
+      <DashboardLayout>
         <div className="flex h-96 items-center justify-center">
-          Loading Resume...
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-gray-500">Loading resume...</p>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <DashboardLayout>
+        <div className="flex h-96 items-center justify-center">
+          <div className="text-center">
+            <p className="text-red-500 font-medium">Failed to load resume</p>
+            <p className="text-sm text-gray-500 mt-1">Please go back and try again.</p>
+          </div>
         </div>
       </DashboardLayout>
     );
   }
 
   return (
-    <DashboardLayout name="Resume Builder">
+    <DashboardLayout>
       <ResumeToolbar
         isSaving={isSaving}
         hasUnsavedChanges={hasUnsavedChanges}
         lastSaved={lastSaved}
-        onSave={() => handleSave()}
+        saveError={saveError}
+        onSave={manualSave}
+        printRef={printRef}
       />
 
-      <div className="mt-6 space-y-6">
+      <div className="mt-4 space-y-4">
         <CompletionProgress />
-
         <TemplateSelector />
-
         <ResumeLayout
           children={<ResumeForm />}
-          preview={<ResumePreview />}
+          preview={<ResumePreview printRef={printRef} />}
         />
       </div>
     </DashboardLayout>

@@ -61,11 +61,7 @@ export interface Interest {
   name: string;
 }
 
-export type ResumeTemplate =
-  | "classic"
-  | "modern"
-  | "minimal"
-  | "professional";
+export type ResumeTemplate = "classic" | "modern" | "minimal" | "professional";
 
 
 export interface ResumeData {

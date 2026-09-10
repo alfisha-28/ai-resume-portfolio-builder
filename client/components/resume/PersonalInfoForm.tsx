@@ -18,8 +18,19 @@ export default function PersonalInfoForm() {
   };
 
   return (
-    <SectionCard title="Personal Information">
+    <SectionCard title="Personal Information" defaultOpen>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium mb-2">Resume Title</label>
+          <input
+            type="text"
+            placeholder="e.g. Frontend Developer Resume"
+            value={resumeData.title ?? ""}
+            onChange={(e) => handleChange("title", e.target.value)}
+            className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
         <div>
           <label className="block text-sm font-medium mb-2">

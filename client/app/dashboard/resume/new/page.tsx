@@ -10,7 +10,7 @@ export default function NewResumePage() {
   useEffect(() => {
     const create = async () => {
       try {
-        const response = await createResume({
+        const resume = await createResume({
           title: "Untitled Resume",
           summary: "",
           education: [],
@@ -23,7 +23,7 @@ export default function NewResumePage() {
         });
 
         router.replace(
-          `/dashboard/resume/edit/${response.data.id}`
+          `/dashboard/resume/edit/${resume.id}`
         );
       } catch (err) {
         console.error(err);
