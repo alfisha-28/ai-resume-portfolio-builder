@@ -16,8 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ResumeAI",
-  description: "AI Resume Builder",
+  title: "ResuMind — Build Smarter. Get Hired.",
+  description:
+    "Create, optimize, tailor, and showcase your professional profile with AI-powered resume building, ATS optimization, and live web portfolios.",
+  icons: {
+    icon: "/logos/logo.png",
+  },
 };
 
 export default function RootLayout({
