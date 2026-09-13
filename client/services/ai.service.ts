@@ -231,3 +231,23 @@ export const aiTailorResumeToJob = async (data: {
   const res = await api.post("/ai/tailor", data);
   return res.data.data as ResumeTailorResult;
 };
+
+// ==========================================
+// Phase 5 — AI Portfolio About Improvement
+// ==========================================
+
+export interface ImprovePortfolioAboutPayload {
+  fullName?: string;
+  jobTitle?: string;
+  currentAbout: string;
+  skills?: string[] | { id: string; name: string }[];
+  experience?: { jobTitle?: string; company?: string }[];
+  mode?: "professional" | "concise" | "story" | "technical";
+}
+
+export const aiImprovePortfolioAbout = async (
+  data: ImprovePortfolioAboutPayload
+): Promise<string> => {
+  const res = await api.post("/ai/improve-about", data);
+  return (res.data.data.about || res.data.data.text) as string;
+};

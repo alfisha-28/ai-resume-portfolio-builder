@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, Download, Sparkles, Target, Wand2 } from "lucide-react";
+import { ArrowLeft, Download, Globe, Sparkles, Target, Wand2 } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import SaveButton from "./SaveButton";
 import SaveStatus from "./SaveStatus";
@@ -80,6 +80,14 @@ export default function ResumeToolbar({
             >
               <Sparkles className="w-3.5 h-3.5 text-purple-600" />
               <span className="hidden sm:inline">ATS Score</span>
+            </Link>
+            <Link
+              href={`/dashboard/portfolio?resumeId=${resumeId}`}
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-lg transition-colors shadow-2xs"
+              title="Transform this resume into a public web portfolio"
+            >
+              <Globe className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="hidden sm:inline">Portfolio</span>
             </Link>
           </>
         )}

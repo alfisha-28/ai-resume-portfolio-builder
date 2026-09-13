@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Copy, Edit, MoreVertical, Pencil, Trash2, Sparkles, Target, Wand2 } from "lucide-react";
+import { Copy, Edit, Globe, MoreVertical, Pencil, Trash2, Sparkles, Target, Wand2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface ResumeActionsProps {
@@ -69,6 +69,13 @@ export default function ResumeActions({ resumeId, onDelete, onDuplicate, onRenam
             className="flex items-center gap-3 px-4 py-3 hover:bg-purple-50 text-purple-700 text-sm font-medium"
           >
             <Sparkles size={15} className="text-purple-600" /> Analyze ATS
+          </Link>
+          <Link
+            href={`/dashboard/portfolio?resumeId=${resumeId}`}
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 text-emerald-700 text-sm font-medium"
+          >
+            <Globe size={15} className="text-emerald-600" /> Build Portfolio
           </Link>
           {onRename && (
             <button

@@ -1,100 +1,98 @@
-import { notFound } from "next/navigation";
-import type { Resume } from "@/types/resume";
+import React from "react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Lock, ArrowLeft, Globe } from "lucide-react";
+import PublicPortfolioClient from "@/components/portfolio/PublicPortfolioClient";
+import type { Portfolio } from "@/types/portfolio";
 
 interface Props {
   params: Promise<{ username: string }>;
 }
 
-// Placeholder until portfolio API is built — returns null so notFound() fires
-async function fetchPortfolioData(_username: string): Promise<Resume | null> {
-  return null;
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:7000/api/v1";
+
+async function fetchPublicPortfolio(username: string): Promise<Portfolio | null> {
+  try {
+    const clean = encodeURIComponent(username.trim().toLowerCase());
+    const res = await fetch(`${API_BASE}/portfolio/public/${clean}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.data as Portfolio;
+  } catch {
+    return null;
+  }
 }
 
-export default async function PortfolioPage({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
-  const resume = await fetchPortfolioData(username);
+  const portfolio = await fetchPublicPortfolio(username);
 
-  if (!resume) {
-    notFound();
+  if (!portfolio || !portfolio.published) {
+    return {
+      title: "Portfolio Not Found | ResuMind",
+      description: "The requested professional portfolio is private or does not exist.",
+    };
   }
 
-  return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <h1 className="text-4xl font-bold">{resume.fullName}</h1>
-        <p className="text-xl text-blue-600 mt-2">{resume.jobTitle}</p>
+  const name = portfolio.resume?.fullName || portfolio.username;
+  const title = portfolio.customData?.headline || portfolio.resume?.jobTitle || "Professional";
+  const desc =
+    portfolio.customData?.customAbout ||
+    portfolio.customData?.bio ||
+    portfolio.resume?.summary ||
+    `Professional online portfolio of ${name} showcasing experience, projects, skills, and accomplishments.`;
 
-        {resume.summary && (
-          <p className="mt-6 text-gray-600 leading-relaxed">{resume.summary}</p>
-        )}
+  return {
+    title: `${name} — ${title} | ResuMind Portfolio`,
+    description: desc.slice(0, 160),
+    openGraph: {
+      title: `${name} — ${title}`,
+      description: desc.slice(0, 160),
+      type: "profile",
+    },
+  };
+}
 
-        {resume.skills.length > 0 && (
-          <section className="mt-10">
-            <h2 className="text-2xl font-semibold mb-4">Skills</h2>
-            <div className="flex flex-wrap gap-2">
-              {resume.skills.map((s) => (
-                <span key={s.id} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm border border-blue-200">
-                  {s.name}
-                </span>
-              ))}
-            </div>
-          </section>
-        )}
+export default async function PublicPortfolioPage({ params }: Props) {
+  const { username } = await params;
+  const portfolio = await fetchPublicPortfolio(username);
 
-        {resume.experience.length > 0 && (
-          <section className="mt-10">
-            <h2 className="text-2xl font-semibold mb-4">Experience</h2>
-            <div className="space-y-6">
-              {resume.experience.map((exp) => (
-                <div key={exp.id} className="border-l-2 border-blue-600 pl-4">
-                  <h3 className="font-semibold">{exp.jobTitle}</h3>
-                  <p className="text-gray-600">{exp.company}</p>
-                  <p className="text-sm text-gray-400">
-                    {exp.startDate} — {exp.currentlyWorking ? "Present" : exp.endDate}
-                  </p>
-                  {exp.description && (
-                    <p className="mt-2 text-sm text-gray-600">{exp.description}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+  // If portfolio is non-existent or unpublished
+  if (!portfolio || !portfolio.published) {
+    return (
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-slate-900 font-sans">
+        <div className="max-w-md w-full bg-white rounded-3xl border border-slate-200 shadow-xl p-8 text-center space-y-6">
+          <div className="w-16 h-16 rounded-3xl bg-slate-100 text-slate-500 flex items-center justify-center mx-auto">
+            <Lock className="w-8 h-8" />
+          </div>
 
-        {resume.projects.length > 0 && (
-          <section className="mt-10">
-            <h2 className="text-2xl font-semibold mb-4">Projects</h2>
-            <div className="space-y-6">
-              {resume.projects.map((project) => (
-                <div key={project.id} className="border rounded-xl p-5">
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-semibold">{project.title}</h3>
-                    <div className="flex gap-3 text-sm">
-                      {project.githubUrl && (
-                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                          GitHub
-                        </a>
-                      )}
-                      {project.liveUrl && (
-                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline">
-                          Live
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  {project.description && (
-                    <p className="mt-2 text-sm text-gray-600">{project.description}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+          <div className="space-y-2">
+            <h1 className="text-xl font-bold text-slate-900">Portfolio Not Available</h1>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              The portfolio for <strong className="text-slate-800">@{username}</strong> is currently private, unpublished, or does not exist.
+            </p>
+          </div>
 
-        <div className="mt-16 pt-8 border-t text-center text-sm text-gray-400">
-          Built with ResumeAI
+          <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-bold transition flex items-center justify-center gap-1.5"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to ResuMind</span>
+            </Link>
+          </div>
+
+          <p className="text-[11px] text-slate-400">
+            Powered by ResuMind • Build Smarter. Get Hired.
+          </p>
         </div>
-      </div>
-    </main>
-  );
+      </main>
+    );
+  }
+
+  return <PublicPortfolioClient portfolio={portfolio} />;
 }

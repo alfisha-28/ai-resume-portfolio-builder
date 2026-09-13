@@ -7,7 +7,6 @@ import {
   LayoutTemplate,
   Settings,
   LogOut,
-  Sparkles,
   X,
 } from "lucide-react";
 
@@ -17,36 +16,77 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Templates", href: "/dashboard/templates", icon: LayoutTemplate },
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    name: "Templates",
+    href: "/dashboard/templates",
+    icon: LayoutTemplate,
+  },
+  {
+    name: "Settings",
+    href: "/dashboard/settings",
+    icon: Settings,
+  },
 ];
 
-export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
+export default function Sidebar({
+  mobileOpen = false,
+  onCloseMobile,
+}: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    if (onCloseMobile) onCloseMobile();
+
+    if (onCloseMobile) {
+      onCloseMobile();
+    }
+
     router.push("/login");
   };
 
   const navContent = (
     <div className="flex flex-col h-full">
-      {/* Brand Header */}
+      {/* =====================================================
+          BRAND HEADER
+      ====================================================== */}
       <div className="p-6 border-b border-slate-800/80 flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-xs">
-              <Sparkles className="w-4 h-4" />
-            </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-white">ResumeAI</h1>
-          </div>
-          <p className="text-slate-400 text-[11px] font-medium mt-1">Smart Career SaaS Platform</p>
+          <Link
+            href="/dashboard"
+            onClick={() => onCloseMobile?.()}
+            className="inline-flex items-center gap-2.5"
+            aria-label="ResuMind Dashboard"
+          >
+            {/* ResuMind Logo */}
+            <img
+              src="/logos/logo.png"
+              alt="ResuMind Logo"
+              className="w-15 h-15 object-contain shrink-0"
+            />
+
+            {/* ResuMind Wordmark */}
+            <img
+              src="/logos/wordmark.png"
+              alt="ResuMind"
+              className="h-10 w-auto max-w-[145px] object-contain"
+            />
+          </Link>
+
+          {/* Brand Tagline */}
+          <p className="text-slate-400 text-[11px] font-medium mt-1.5 ml-0.5">
+            Build Smarter. Get Hired.
+          </p>
         </div>
 
-        {/* Mobile Close Button */}
+        {/* =================================================
+            MOBILE CLOSE BUTTON
+        ================================================== */}
         {onCloseMobile && (
           <button
             type="button"
@@ -59,14 +99,22 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
         )}
       </div>
 
-      {/* Nav Menu */}
+      {/* =====================================================
+          NAVIGATION
+      ====================================================== */}
       <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
         <span className="block px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
           Navigation
         </span>
+
         {menuItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href + "/"));
+
+          const isActive =
+            pathname === item.href ||
+            (item.href !== "/dashboard" &&
+              pathname.startsWith(item.href + "/"));
+
           return (
             <Link
               key={item.name}
@@ -78,14 +126,22 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
                   : "text-slate-300 hover:bg-slate-800/80 hover:text-white"
               }`}
             >
-              <Icon size={18} className={isActive ? "text-white" : "text-slate-400"} />
-              {item.name}
+              <Icon
+                size={18}
+                className={
+                  isActive ? "text-white" : "text-slate-400"
+                }
+              />
+
+              <span>{item.name}</span>
             </Link>
           );
         })}
       </nav>
 
-      {/* Footer Logout */}
+      {/* =====================================================
+          FOOTER / LOGOUT
+      ====================================================== */}
       <div className="border-t border-slate-800/80 p-4">
         <button
           type="button"
@@ -93,7 +149,8 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
           className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-slate-300 hover:bg-red-500/10 hover:text-red-400 transition-all text-sm font-medium"
         >
           <LogOut size={18} />
-          Logout
+
+          <span>Logout</span>
         </button>
       </div>
     </div>
@@ -101,22 +158,26 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
+      {/* =====================================================
+          DESKTOP SIDEBAR
+      ====================================================== */}
       <aside className="hidden lg:flex w-64 bg-slate-900 text-white flex-col min-h-screen shrink-0 border-r border-slate-800">
         {navContent}
       </aside>
 
-      {/* Mobile Off-canvas Drawer & Backdrop */}
+      {/* =====================================================
+          MOBILE OFF-CANVAS DRAWER
+      ====================================================== */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          {/* Backdrop overlay */}
+          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in"
             onClick={onCloseMobile}
             aria-hidden="true"
           />
 
-          {/* Drawer panel */}
+          {/* Drawer */}
           <aside className="relative w-72 max-w-[80vw] bg-slate-900 text-white flex flex-col h-full shadow-2xl z-10 animate-in slide-in-from-left duration-200">
             {navContent}
           </aside>

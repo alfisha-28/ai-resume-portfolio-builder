@@ -1,6 +1,19 @@
 import api from "@/lib/axios";
 import type { Resume, ResumeData } from "@/types/resume";
 
+function parseArrayField<T>(field: unknown): T[] {
+  if (Array.isArray(field)) return field as T[];
+  if (typeof field === "string" && field.trim()) {
+    try {
+      const parsed = JSON.parse(field);
+      if (Array.isArray(parsed)) return parsed as T[];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 // ─── Normalizer ────────────────────────────────────────────────────────────
 // Converts null DB values to safe defaults so controlled inputs never receive null
 export function normalizeResume(raw: Record<string, unknown>): Resume {
@@ -17,14 +30,14 @@ export function normalizeResume(raw: Record<string, unknown>): Resume {
     portfolio: (raw.portfolio as string) ?? "",
     summary: (raw.summary as string) ?? "",
     template: ((raw.template as string) ?? "classic") as Resume["template"],
-    education: Array.isArray(raw.education) ? raw.education : [],
-    experience: Array.isArray(raw.experience) ? raw.experience : [],
-    projects: Array.isArray(raw.projects) ? raw.projects : [],
-    skills: Array.isArray(raw.skills) ? raw.skills : [],
-    certifications: Array.isArray(raw.certifications) ? raw.certifications : [],
-    languages: Array.isArray(raw.languages) ? raw.languages : [],
-    achievements: Array.isArray(raw.achievements) ? raw.achievements : [],
-    interests: Array.isArray(raw.interests) ? raw.interests : [],
+    education: parseArrayField(raw.education),
+    experience: parseArrayField(raw.experience),
+    projects: parseArrayField(raw.projects),
+    skills: parseArrayField(raw.skills),
+    certifications: parseArrayField(raw.certifications),
+    languages: parseArrayField(raw.languages),
+    achievements: parseArrayField(raw.achievements),
+    interests: parseArrayField(raw.interests),
     createdAt: (raw.createdAt as string) ?? "",
     updatedAt: (raw.updatedAt as string) ?? "",
   };

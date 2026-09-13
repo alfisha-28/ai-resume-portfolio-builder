@@ -43,10 +43,12 @@ const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
 export function ResumeProvider({
   children,
+  initialData,
 }: {
   children: ReactNode;
+  initialData?: ResumeData;
 }) {
-  const [resumeData, setResumeDataState] = useState<ResumeData>(initialResume);
+  const [resumeData, setResumeDataState] = useState<ResumeData>(initialData || initialResume);
   const [isDirty, setIsDirty] = useState(false);
 
   const loadResume = useCallback((resume: ResumeData) => {

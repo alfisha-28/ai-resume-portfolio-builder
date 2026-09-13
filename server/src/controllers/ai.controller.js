@@ -209,6 +209,24 @@ const tailorResume = asyncHandler(async (req, res) => {
   );
 });
 
+// POST /api/v1/ai/improve-about
+const improvePortfolioAbout = asyncHandler(async (req, res) => {
+  const { fullName, jobTitle, currentAbout, skills, experience, mode } = req.body;
+
+  const result = await aiService.improvePortfolioAbout({
+    fullName,
+    jobTitle,
+    currentAbout,
+    skills,
+    experience,
+    mode,
+  });
+
+  return res.status(200).json(
+    new ApiResponse(200, "Portfolio about text improved successfully", { about: result, text: result })
+  );
+});
+
 module.exports = {
   generateSummary,
   enhanceExperience,
@@ -217,6 +235,7 @@ module.exports = {
   analyzeResume,
   matchJobDescription,
   tailorResume,
+  improvePortfolioAbout,
   improveExperience: enhanceExperience,
   improveProject: generateProjectDescription,
   reviewResume: analyzeResume,

@@ -1,5 +1,8 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 const ApiError = require("../utils/ApiError");
+
+const GEMINI_MODEL =
+  process.env.GEMINI_MODEL || "gemini-3.6-flash";
 
 const SYSTEM_INSTRUCTION = `You are a world-class executive career coach and technical resume consultant.
 STRICT ETHICAL & QUALITY RULES:
@@ -9,30 +12,76 @@ STRICT ETHICAL & QUALITY RULES:
 4. Professional Polish: Use clear, modern, active-voice language. Eliminate passive clichés (e.g., "Responsible for", "Helped with", "Worked on").
 5. Output format: Return ONLY the final requested resume text without conversational preamble, quotes, markdown labels, or meta commentary.`;
 
-function getModel() {
+function getAIClient() {
   const apiKey = process.env.GEMINI_API_KEY;
+
   if (!apiKey) {
-    throw new ApiError(500, "Gemini API key is not configured on the server");
+    throw new ApiError(
+      500,
+      "Gemini API key is not configured on the server"
+    );
   }
-  const genAI = new GoogleGenerativeAI(apiKey);
-  return genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
-    systemInstruction: SYSTEM_INSTRUCTION,
+
+  return new GoogleGenAI({
+    apiKey,
   });
 }
 
 async function runPrompt(prompt) {
   try {
-    const model = getModel();
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text().trim();
-  } catch (err) {
-    console.error("Gemini API Error:", err.message);
-    if (err.status === 429 || err.message?.includes("quota") || err.message?.includes("RESOURCE_EXHAUSTED")) {
-      throw new ApiError(429, "AI generation quota reached. Please wait a moment before trying again.");
+    const ai = getAIClient();
+
+    const response = await ai.models.generateContent({
+      model: GEMINI_MODEL,
+
+      contents: prompt,
+
+      config: {
+        systemInstruction: SYSTEM_INSTRUCTION,
+      },
+    });
+
+    const text = response.text;
+
+    if (!text || !text.trim()) {
+      throw new ApiError(
+        500,
+        "AI provider returned an empty response"
+      );
     }
-    throw new ApiError(500, err.message || "Failed to communicate with AI provider");
+
+    return text.trim();
+  } catch (err) {
+    console.error("Gemini API Error:", err);
+
+    const status = err?.status || err?.statusCode;
+
+    if (
+      status === 429 ||
+      err?.message?.includes("quota") ||
+      err?.message?.includes("RESOURCE_EXHAUSTED")
+    ) {
+      throw new ApiError(
+        429,
+        "AI generation quota reached. Please wait a moment before trying again."
+      );
+    }
+
+    if (
+      status === 404 ||
+      err?.message?.includes("NOT_FOUND") ||
+      err?.message?.includes("not found")
+    ) {
+      throw new ApiError(
+        503,
+        "The configured AI model is currently unavailable. Please try again later."
+      );
+    }
+
+    throw new ApiError(
+      500,
+      "Failed to communicate with the AI service"
+    );
   }
 }
 
@@ -1216,6 +1265,53 @@ Return ONLY a valid JSON object matching this schema:
   };
 }
 
+/**
+ * Phase 5 — Improve Portfolio About / Bio
+ * Truth-preserving, professional narrative enhancement.
+ */
+async function improvePortfolioAbout({
+  fullName = "",
+  jobTitle = "",
+  currentAbout = "",
+  skills = [],
+  experience = [],
+  mode = "professional",
+}) {
+  if (!currentAbout && !jobTitle) {
+    throw new ApiError(400, "Current about text or professional title is required");
+  }
+
+  const skillList = Array.isArray(skills)
+    ? skills.map((s) => (typeof s === "string" ? s : s.name)).filter(Boolean).join(", ")
+    : skills || "";
+
+  let instructions = "";
+  switch (mode) {
+    case "concise":
+      instructions = `Condense the following portfolio 'About Me' text into 2 high-impact, crisp sentences emphasizing core expertise:\n"${currentAbout}"`;
+      break;
+    case "story":
+      instructions = `Transform the following portfolio 'About Me' into an engaging, narrative-driven professional bio that highlights passion for building solutions without fabricating metrics or jobs:\n"${currentAbout}"`;
+      break;
+    case "technical":
+      instructions = `Sharpen the technical depth and engineering authority of this portfolio bio, emphasizing relevant skills (${skillList}):\n"${currentAbout}"`;
+      break;
+    case "professional":
+    default:
+      instructions = `Elevate the clarity, impact, and executive polish of this portfolio 'About Me' for ${fullName || "a professional"} (${jobTitle || "Engineer"}). Background text:\n"${currentAbout}"`;
+      break;
+  }
+
+  const prompt = `${instructions}
+
+STRICT ANTI-FABRICATION REQUIREMENT:
+- Only refine and elevate facts provided in the user's background.
+- NEVER invent unheld jobs, metrics, tools, awards, or false experience.
+- Return ONLY the final polished text without conversational preamble or markdown quotes.`;
+
+  return await runPrompt(prompt);
+}
+
 module.exports = {
   generateSummary,
   enhanceExperience,
@@ -1224,4 +1320,5 @@ module.exports = {
   analyzeResume,
   matchJob,
   tailorResume,
+  improvePortfolioAbout,
 };

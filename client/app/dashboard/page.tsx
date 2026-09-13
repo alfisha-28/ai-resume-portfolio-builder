@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState, useCallback } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Globe, ArrowRight, Sparkles } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -148,6 +150,33 @@ export default function DashboardPage() {
         <DashboardHeader onCreate={handleCreate} creating={creating} />
 
         <DashboardStats resumes={filteredResumes} />
+
+        {/* ResuMind Portfolio Builder Banner */}
+        <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 p-6 md:p-7 text-white shadow-lg">
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-semibold backdrop-blur-xs">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>ResuMind Portfolio Builder</span>
+              </div>
+              <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white">
+                Turn your resume into a live, professional web portfolio.
+              </h2>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Choose from 4 designer templates (Modern, Minimal, Professional, Creative), customize your sections with live preview, and publish your personalized public URL.
+              </p>
+            </div>
+            <Link
+              href="/dashboard/portfolio"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white text-slate-950 hover:bg-slate-100 text-xs font-bold transition shadow-md shrink-0 self-start md:self-auto"
+            >
+              <Globe className="w-4 h-4 text-indigo-600" />
+              <span>Launch Portfolio</span>
+              <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+            </Link>
+          </div>
+          <div className="absolute -right-12 -bottom-12 w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none" />
+        </div>
 
         <DashboardToolbar
           search={search}

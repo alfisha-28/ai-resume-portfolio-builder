@@ -26,13 +26,26 @@ const getDashboard = asyncHandler(async (req, res) => {
         }
     });
 
+    const portfolio = await prisma.portfolio.findFirst({
+        where: {
+            userId: req.user.id
+        },
+        select: {
+            id: true,
+            username: true,
+            published: true,
+            updatedAt: true
+        }
+    });
+
     return res.status(200).json(
         new ApiResponse(
             200,
             "Dashboard data fetched successfully",
             {
                 totalResumes,
-                latestResume
+                latestResume,
+                portfolio
             }
         )
     );
