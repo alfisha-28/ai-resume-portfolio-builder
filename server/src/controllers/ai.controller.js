@@ -164,6 +164,51 @@ const calculateATSScore = asyncHandler(async (req, res) => {
   );
 });
 
+// POST /api/v1/ai/tailor
+const tailorResume = asyncHandler(async (req, res) => {
+  const { resume, resumeId, jobDescription } = req.body;
+  const userId = req.userId || req.user?.id;
+
+  if (!jobDescription || typeof jobDescription !== "string" || jobDescription.trim().length < 50) {
+    throw new ApiError(400, "Please provide a valid job description (minimum 50 characters)");
+  }
+
+  if (jobDescription.length > 25000) {
+    throw new ApiError(400, "Job description is too long (maximum 25,000 characters)");
+  }
+
+  let targetResume = resume;
+
+  if (resumeId) {
+    const dbResume = await prisma.resume.findFirst({
+      where: {
+        id: resumeId,
+        userId,
+      },
+    });
+
+    if (!dbResume) {
+      throw new ApiError(404, "Resume not found or unauthorized");
+    }
+
+    // Never trust client-provided resume data when resumeId is supplied
+    targetResume = dbResume;
+  }
+
+  if (!targetResume || typeof targetResume !== "object") {
+    throw new ApiError(400, "Valid resume data or resumeId is required for tailoring");
+  }
+
+  const result = await aiService.tailorResume({
+    resume: targetResume,
+    jobDescription: jobDescription.trim(),
+  });
+
+  return res.status(200).json(
+    new ApiResponse(200, "Resume tailored successfully", result)
+  );
+});
+
 module.exports = {
   generateSummary,
   enhanceExperience,
@@ -171,6 +216,7 @@ module.exports = {
   suggestSkills,
   analyzeResume,
   matchJobDescription,
+  tailorResume,
   improveExperience: enhanceExperience,
   improveProject: generateProjectDescription,
   reviewResume: analyzeResume,

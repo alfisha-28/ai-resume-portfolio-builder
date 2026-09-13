@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Copy, Edit, MoreVertical, Pencil, Trash2, Sparkles, Target } from "lucide-react";
+import { Copy, Edit, MoreVertical, Pencil, Trash2, Sparkles, Target, Wand2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface ResumeActionsProps {
@@ -48,6 +48,13 @@ export default function ResumeActions({ resumeId, onDelete, onDuplicate, onRenam
             className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-gray-700 text-sm"
           >
             <Edit size={15} /> Edit Resume
+          </Link>
+          <Link
+            href={`/dashboard/resume/${resumeId}/tailor`}
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-3 hover:bg-indigo-50 text-indigo-700 text-sm font-medium"
+          >
+            <Wand2 size={15} className="text-indigo-600" /> AI Tailor
           </Link>
           <Link
             href={`/dashboard/resume/${resumeId}/match`}

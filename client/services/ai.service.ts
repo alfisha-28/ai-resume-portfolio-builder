@@ -160,3 +160,74 @@ export const aiMatchResumeToJob = async (data: {
   const res = await api.post("/ai/match", data);
   return res.data.data as JobMatchResult;
 };
+
+// ==========================================
+// Phase 4 — AI Resume Tailoring
+// ==========================================
+
+export interface TailorSummary {
+  suggestion: string;
+  before: string;
+  after: string;
+  reason: string;
+}
+
+export interface TailorExperienceSuggestion {
+  experienceId: string;
+  bulletIndex: number;
+  before: string;
+  after: string;
+  reason: string;
+  matchedKeywords: string[];
+  type: "rewrite";
+}
+
+export interface TailorProjectSuggestion {
+  projectId: string;
+  field: "description";
+  before: string;
+  after: string;
+  reason: string;
+  matchedKeywords: string[];
+}
+
+export interface TailorSkillsSuggestion {
+  keep: string[];
+  emphasize: string[];
+  missing: string[];
+  reason: string;
+}
+
+export interface TailorKeywordAnalysis {
+  matched: string[];
+  missing: string[];
+  highPriority: string[];
+}
+
+export interface TailorRecommendation {
+  priority: "high" | "medium" | "low";
+  section: string;
+  title: string;
+  description: string;
+  action: string;
+}
+
+export interface ResumeTailorResult {
+  scoreBefore: number;
+  estimatedScoreAfter: number;
+  summary: TailorSummary;
+  experience: TailorExperienceSuggestion[];
+  projects: TailorProjectSuggestion[];
+  skills: TailorSkillsSuggestion;
+  keywords: TailorKeywordAnalysis;
+  recommendations: TailorRecommendation[];
+}
+
+export const aiTailorResumeToJob = async (data: {
+  resumeId?: string;
+  resume?: Partial<ResumeData>;
+  jobDescription: string;
+}): Promise<ResumeTailorResult> => {
+  const res = await api.post("/ai/tailor", data);
+  return res.data.data as ResumeTailorResult;
+};

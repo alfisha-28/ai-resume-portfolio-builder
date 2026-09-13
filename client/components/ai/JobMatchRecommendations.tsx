@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, ArrowRight, CheckCircle, Clock, Zap, Lock } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle, Clock, Zap, Wand2 } from "lucide-react";
 import type { MatchRecommendation } from "@/services/ai.service";
 
 interface JobMatchRecommendationsProps {
   recommendations: MatchRecommendation[];
   resumeId: string;
+  jobDescription?: string;
 }
 
 export default function JobMatchRecommendations({
   recommendations,
   resumeId,
+  jobDescription,
 }: JobMatchRecommendationsProps) {
   const getPriorityBadge = (priority: "high" | "medium" | "low") => {
     switch (priority) {
@@ -85,33 +87,37 @@ export default function JobMatchRecommendations({
         </div>
       </div>
 
-      {/* Phase 4 Preparation Card */}
-      <div className="p-6 rounded-2xl border border-indigo-100 bg-gradient-to-r from-indigo-50/80 via-purple-50/60 to-blue-50/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      {/* AI Resume Tailoring Active CTA Card */}
+      <div className="p-6 rounded-2xl border border-indigo-200 bg-gradient-to-r from-indigo-50/90 via-purple-50/80 to-blue-50/90 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div className="space-y-1.5">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-md bg-indigo-200/70 text-indigo-900 text-[10px] font-bold uppercase tracking-wider">
-              Phase 4 — Upcoming
+            <span className="px-2 py-0.5 rounded-md bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <Sparkles className="w-3 h-3" /> Recommended Next Step
             </span>
             <span className="text-xs text-gray-400">|</span>
-            <span className="text-xs font-semibold text-indigo-900">One-Click Resume Tailoring</span>
+            <span className="text-xs font-semibold text-indigo-950">AI Resume Tailoring</span>
           </div>
           <h4 className="text-sm font-bold text-gray-900">
-            Automatically tailor your resume to match this job
+            Tailor your resume specifically for this job description
           </h4>
-          <p className="text-xs text-gray-600 max-w-xl">
-            In the upcoming Phase 4 release, our AI will automatically re-order bullet points, align summary phrasing, and emphasize relevant experiences while respecting your authentic history.
+          <p className="text-xs text-gray-600 max-w-xl leading-relaxed">
+            Our truth-preserving AI will evaluate every section, strengthen action verbs, align keywords, and prepare an interactive change plan without inventing any false credentials.
           </p>
         </div>
 
-        <button
-          type="button"
-          disabled
-          aria-label="Resume Tailoring coming in Phase 4"
-          className="shrink-0 flex items-center gap-2 px-5 py-2.5 bg-gray-200/80 text-gray-500 text-xs font-semibold rounded-xl border border-gray-300/80 cursor-not-allowed shadow-2xs"
+        <Link
+          href={`/dashboard/resume/${resumeId}/tailor`}
+          onClick={() => {
+            if (jobDescription) {
+              sessionStorage.setItem("pending_tailor_jd", jobDescription);
+            }
+          }}
+          className="shrink-0 flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs hover:shadow transition-all"
         >
-          <Lock className="w-3.5 h-3.5 text-gray-400" />
-          <span>Tailor Resume — Coming in Phase 4</span>
-        </button>
+          <Wand2 className="w-4 h-4" />
+          <span>Tailor Resume for This Job</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ const {
   suggestSkills,
   analyzeResume,
   matchJobDescription,
+  tailorResume,
   improveExperience,
   improveProject,
   reviewResume,
@@ -23,6 +24,7 @@ router.post("/project", generateProjectDescription);
 router.post("/skills", suggestSkills);
 router.post("/analyze", analyzeResume);
 router.post("/match", matchJobDescription);
+router.post("/tailor", tailorResume);
 
 // origin/main AI endpoints
 router.post("/improve-experience", improveExperience);

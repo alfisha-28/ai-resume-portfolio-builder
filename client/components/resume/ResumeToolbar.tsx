@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, Download, Sparkles, Target } from "lucide-react";
+import { ArrowLeft, Download, Sparkles, Target, Wand2 } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import SaveButton from "./SaveButton";
 import SaveStatus from "./SaveStatus";
@@ -60,6 +60,13 @@ export default function ResumeToolbar({
 
         {resumeId && (
           <>
+            <Link
+              href={`/dashboard/resume/${resumeId}/tailor`}
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg transition-colors shadow-2xs"
+            >
+              <Wand2 className="w-3.5 h-3.5 text-indigo-600" />
+              <span className="hidden sm:inline">AI Tailor</span>
+            </Link>
             <Link
               href={`/dashboard/resume/${resumeId}/match`}
               className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg transition-colors shadow-2xs"

@@ -388,10 +388,11 @@ export default function JobMatchPage() {
               </div>
             </div>
 
-            {/* Recommendations & Phase 4 Entry Point */}
+            {/* Recommendations & Tailoring Entry Point */}
             <JobMatchRecommendations
               recommendations={matchResult.recommendations}
               resumeId={resumeId}
+              jobDescription={jobDescription}
             />
           </div>
         )}
