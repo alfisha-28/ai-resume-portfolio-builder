@@ -7,38 +7,21 @@ interface SaveButtonProps {
   onClick: () => void;
 }
 
-export default function SaveButton({
-  loading,
-  onClick,
-}: SaveButtonProps) {
+export default function SaveButton({ loading, onClick }: SaveButtonProps) {
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={loading}
-      className="
-      flex
-      items-center
-      gap-2
-      rounded-lg
-      bg-blue-600
-      px-5
-      py-2.5
-      text-white
-      font-medium
-      hover:bg-blue-700
-      disabled:opacity-60
-    "
+      className="flex items-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 px-4 py-2 text-white text-xs font-semibold shadow-xs shadow-blue-500/20 hover:shadow-md hover:shadow-blue-500/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+      title="Save changes now"
     >
       {loading ? (
-        <Loader2
-          size={18}
-          className="animate-spin"
-        />
+        <Loader2 size={14} className="animate-spin" />
       ) : (
-        <Save size={18} />
+        <Save size={14} />
       )}
-
-      {loading ? "Saving..." : "Save"}
+      <span>{loading ? "Saving..." : "Save"}</span>
     </button>
   );
 }
