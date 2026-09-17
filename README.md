@@ -720,21 +720,3 @@ If you find this project useful or interesting, consider giving the repository a
 This project is developed for educational, portfolio, and demonstration purposes.
 
 ````
-
-### One thing I strongly recommend for the GitHub version
-
-Don't leave the README as **100% text**. Since ResuMind is a highly visual product, add a section near the top like:
-
-```md
-## 🖥️ Preview
-
-![ResuMind Dashboard](./screenshots/dashboard.png)
-
-![ResuMind Resume Builder](./screenshots/resume-builder.png)
-
-![ResuMind AI Assistant](./screenshots/ai-assistant.png)
-
-![ResuMind Portfolio](./screenshots/portfolio.png)
-````
-
-That will make the repository feel much more like a **finished product** when someone opens it on GitHub.
