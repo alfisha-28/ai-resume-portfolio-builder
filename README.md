@@ -1,260 +1,740 @@
-# 🚀 AI Resume Portfolio Builder
+````md
+# 🧠 ResuMind
 
-> Build an ATS-friendly resume and a beautiful personal portfolio in minutes using AI.
+### Build Smarter. Get Hired.
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19-blue?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
-![Node.js](https://img.shields.io/badge/Node.js-Express-green?logo=node.js)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+> An AI-powered career platform for building, optimizing, tailoring, and showcasing professional resumes and portfolios.
 
----
+ResuMind is a full-stack web application that brings the complete resume-to-career workflow into one platform.
 
-## 📖 Overview
-
-AI Resume Portfolio Builder is a full-stack web application that helps users create professional resumes and responsive portfolio websites with the assistance of Artificial Intelligence.
-
-Instead of manually designing resumes and portfolios, users can simply enter their information, customize templates, generate AI-enhanced content, and publish their portfolio with a unique shareable link.
-
-This project is being built as a production-ready application using modern web technologies and industry-standard development practices.
+Create a professional resume, improve it with AI, analyze ATS compatibility, match it against job descriptions, tailor it for specific opportunities, and transform it into a personal portfolio — all from one place.
 
 ---
 
 ## ✨ Features
 
-### Resume Builder
-- ATS-friendly resume templates
-- Multiple professional layouts
-- Live preview
-- PDF export
-- Drag-and-drop section ordering
-- Resume version management
+### 🔐 Authentication & Dashboard
 
-### AI Assistant
-- AI-generated resume summaries
-- AI-generated project descriptions
-- Skill suggestions
-- Experience enhancement
-- Grammar improvement
-- Keyword optimization
-
-### Portfolio Builder
-- Beautiful portfolio templates
-- Responsive design
-- Custom themes
-- Project showcase
-- Skills section
-- Contact form
-- Resume download
-- Social media integration
-
-### Authentication
-- Secure user authentication
-- Sign up / Login
-- Protected dashboard
+- JWT-based authentication
+- Secure Login & Registration
+- Protected routes
 - User profile management
-
-### Dashboard
-- Manage resumes
-- Manage portfolios
-- Theme customization
-- Analytics
-- Account settings
+- Password management
+- Resume ownership and authorization
+- Personalized dashboard
 
 ---
 
-# 🛠 Tech Stack
+### 📄 Resume Builder
+
+Build and manage professional resumes with a structured editor.
+
+**Resume Sections**
+
+- Personal Information
+- Professional Summary
+- Education
+- Work Experience
+- Projects
+- Skills
+- Certifications
+- Languages
+- Achievements
+- Interests
+
+**Resume Management**
+
+- Create resumes
+- Edit resumes
+- Duplicate resumes
+- Delete resumes
+- Search & sort resumes
+- Resume completion tracking
+- Real-time preview
+- Debounced autosave
+
+---
+
+### 🎨 Resume Templates
+
+Choose from multiple professional templates:
+
+- **Classic**
+- **Modern**
+- **Minimal**
+- **Professional**
+
+Templates are designed with clean typography, spacing, hierarchy, and print-ready layouts.
+
+---
+
+### 📑 PDF Export
+
+Export resumes as professional PDFs with:
+
+- A4 formatting
+- Print-optimized layouts
+- Multi-page support
+- Proper page breaks
+- Template-preserved styling
+- Clickable links
+
+---
+
+# 🤖 AI Career Suite
+
+ResuMind integrates Google's Gemini AI to provide intelligent resume assistance.
+
+### ✍️ AI Summary Assistant
+
+Generate and improve professional summaries with:
+
+- Summary generation
+- Professional rewriting
+- Concise rewriting
+- ATS-focused optimization
+
+---
+
+### 💼 AI Experience Enhancer
+
+Improve experience bullet points with:
+
+- Strong action verbs
+- Achievement-oriented writing
+- Professional rewriting
+- Concise bullet points
+- AI-assisted generation
+
+---
+
+### 🚀 AI Project Assistant
+
+Improve project descriptions with:
+
+- Project generation
+- Bullet-point generation
+- Concise rewriting
+- ATS optimization
+- Professional improvements
+
+---
+
+### 🛠️ AI Skills Suggestions
+
+Get relevant skill recommendations based on existing resume context while avoiding duplicate skills.
+
+---
+
+# 📊 ATS Resume Analyzer
+
+Analyze resume compatibility using a hybrid deterministic + AI analysis engine.
+
+The analyzer evaluates:
+
+- Contact information
+- Summary
+- Experience
+- Education
+- Projects
+- Skills
+- Keywords
+- Metrics
+- Role alignment
+- Resume completeness
+
+### Analysis includes:
+
+- ATS compatibility score
+- Strengths
+- Weaknesses
+- Keyword analysis
+- Improvement recommendations
+- Action plan
+
+> **Note:** ATS results are estimated compatibility indicators and are not official scores from any ATS vendor.
+
+---
+
+# 🎯 Job Description Matching
+
+Paste a target job description and compare it with your resume.
+
+The matching engine analyzes:
+
+- Skills
+- Technologies
+- Experience terminology
+- Project terminology
+- Education
+- Role alignment
+- Relevant keywords
+
+### Results include:
+
+- Match score
+- Matching skills
+- Missing keywords
+- Section-level analysis
+- Recommendations
+
+---
+
+# 🧠 AI Resume Tailoring
+
+Tailor your resume to a specific job description while keeping the user in control.
+
+### Workflow
+
+```text
+Resume
+   ↓
+Job Description
+   ↓
+AI Analysis
+   ↓
+Tailoring Suggestions
+   ↓
+Accept / Reject
+   ↓
+Apply Selected Changes
+   ↓
+Tailored Resume
+````
+
+The AI can suggest improvements to:
+
+* Experience bullets
+* Project descriptions
+* Skills
+* Keywords
+* Job-specific terminology
+
+### 🛡️ Anti-Fabrication
+
+ResuMind is designed to improve the presentation of existing information without inventing:
+
+* Companies
+* Job titles
+* Degrees
+* Technologies
+* Certifications
+* Achievements
+* Dates
+* Metrics
+* Projects
+* Professional experience
+
+Every AI suggestion can be reviewed before being applied.
+
+---
+
+# 🌐 Portfolio Builder
+
+Turn your resume into a professional personal portfolio.
+
+### Portfolio Templates
+
+| Template         | Design                                                   |
+| ---------------- | -------------------------------------------------------- |
+| **Modern**       | Gradient cards, technology badges & interactive projects |
+| **Minimal**      | Clean typography & generous whitespace                   |
+| **Professional** | Corporate dual-column layout                             |
+| **Creative**     | Product showcase layout & dynamic badges                 |
+
+---
+
+## 🎨 Portfolio Customization
+
+Customize your portfolio with:
+
+* Live preview
+* Accent colors
+* Section reordering
+* Section visibility controls
+* Contact privacy settings
+* Source resume selection
+* Autosave
+
+### Accent Palettes
+
+* Blue
+* Purple
+* Emerald
+* Orange
+* Monochrome
+
+### Contact Privacy
+
+Choose whether to display:
+
+* Email
+* Phone
+* Location
+
+---
+
+## ✨ AI About Me
+
+Use AI to improve your portfolio's About Me section.
+
+The AI focuses on:
+
+* Clarity
+* Professional tone
+* Structure
+* Conciseness
+* Personal branding
+
+while following the same anti-fabrication principles used throughout ResuMind.
+
+---
+
+# 📢 Public Portfolio
+
+Publish your portfolio and share it through a public URL:
+
+```text
+/portfolio/[username]
+```
+
+Public portfolios include:
+
+* Responsive design
+* Dynamic SEO metadata
+* OpenGraph metadata
+* Twitter/X metadata
+* Resume PDF download
+* Web Share API
+* One-click URL copying
+* ResuMind branding
+
+---
+
+# 📈 Portfolio Management
+
+Manage your portfolio from a dedicated dashboard.
+
+Features include:
+
+* Profile completeness score
+* Publish / Unpublish
+* Portfolio URL
+* Share portfolio
+* Copy URL
+* Switch source resume
+* Customize portfolio
+* Live preview
+
+---
+
+# 🏗️ Tech Stack
 
 ## Frontend
 
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Shadcn UI
+* **Next.js 16**
+* **React 19**
+* **TypeScript**
+* **Tailwind CSS**
+* **React Query**
+* **Axios**
+* **React Hook Form**
+* **Zod**
+* **Framer Motion**
+* **Lucide React**
+* **React Hot Toast**
+* **React-to-Print**
 
 ## Backend
 
-- Node.js
-- Express.js
-
-## Database
-
-- PostgreSQL
-- Prisma ORM
-
-## Authentication
-
-- Clerk
+* **Node.js**
+* **Express.js**
+* **JavaScript**
+* **Prisma ORM**
+* **PostgreSQL**
+* **JWT**
+* **bcrypt**
 
 ## AI
 
-- Gemini API / OpenAI API
+* **Google Gemini**
+* **@google/genai**
 
-## Storage
+## Tools
 
-- Cloudinary
-
-## Deployment
-
-- Vercel
-- Render
+* Git
+* GitHub
+* VS Code
+* npm
 
 ---
 
-# 📂 Project Structure
+# 🏛️ Architecture
 
+```text
+                     ┌─────────────────────┐
+                     │     ResuMind UI     │
+                     │      Next.js        │
+                     └──────────┬──────────┘
+                                │
+                                ▼
+                     ┌─────────────────────┐
+                     │      REST API       │
+                     │       Express       │
+                     └──────────┬──────────┘
+                                │
+              ┌─────────────────┼─────────────────┐
+              │                 │                 │
+              ▼                 ▼                 ▼
+       ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+       │    Prisma   │   │  AI Service │   │    Auth     │
+       │     ORM     │   │   Gemini    │   │    JWT      │
+       └──────┬──────┘   └─────────────┘   └─────────────┘
+              │
+              ▼
+       ┌─────────────┐
+       │ PostgreSQL  │
+       └─────────────┘
 ```
+
+---
+
+# 📁 Project Structure
+
+```text
 ai-resume-portfolio-builder/
 │
-├── client/                 # Next.js Frontend
+├── client/
+│   ├── app/
+│   │   ├── dashboard/
+│   │   ├── login/
+│   │   ├── register/
+│   │   ├── portfolio/
+│   │   └── resumes/
+│   │
+│   ├── components/
+│   │   ├── ai/
+│   │   ├── dashboard/
+│   │   ├── portfolio/
+│   │   ├── resume/
+│   │   └── templates/
+│   │
+│   ├── services/
+│   ├── contexts/
+│   ├── hooks/
+│   └── public/
 │
-├── server/                 # Express Backend
-│
-├── docs/                   # Documentation
-│
-├── assets/                 # Images & Resources
+├── server/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── middleware/
+│   │   ├── utils/
+│   │   └── config/
+│   │
+│   └── prisma/
 │
 └── README.md
 ```
 
 ---
 
-# 🎯 Project Goals
+# ⚙️ Getting Started
 
-- Build a production-ready SaaS application
-- Learn full-stack development
-- Practice modern web technologies
-- Implement AI features
-- Follow scalable architecture
-- Deploy to production
-- Create a portfolio-worthy project
+## Prerequisites
 
----
+Make sure you have installed:
 
-# 📅 Development Roadmap
-
-## Phase 1
-- [x] Project Setup
-- [x] Next.js Installation
-- [ ] Folder Structure
-- [ ] Git Setup
-
-## Phase 2
-- [ ] UI Design System
-- [ ] Landing Page
-- [ ] Navbar
-- [ ] Footer
-
-## Phase 3
-- [ ] Authentication
-- [ ] Dashboard
-- [ ] User Profile
-
-## Phase 4
-- [ ] Resume Builder
-- [ ] Resume Templates
-- [ ] Resume Editor
-
-## Phase 5
-- [ ] AI Resume Generator
-- [ ] AI Suggestions
-- [ ] AI Project Description Generator
-
-## Phase 6
-- [ ] Portfolio Builder
-- [ ] Theme Customization
-- [ ] Portfolio Templates
-
-## Phase 7
-- [ ] Deployment
-- [ ] Performance Optimization
-- [ ] Documentation
+* Node.js 20+
+* npm
+* PostgreSQL
+* Git
 
 ---
 
-# 🚀 Getting Started
-
-## Clone the repository
+## 1. Clone
 
 ```bash
-git clone https://github.com/yourusername/ai-resume-portfolio-builder.git
-```
-
-## Navigate into the project
-
-```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
 cd ai-resume-portfolio-builder
 ```
 
-## Install frontend dependencies
+---
+
+## 2. Install Frontend
 
 ```bash
 cd client
 npm install
 ```
 
-## Start the frontend
+---
+
+## 3. Install Backend
 
 ```bash
+cd ../server
+npm install
+```
+
+---
+
+## 4. Environment Variables
+
+Create a `.env` file inside `server/`:
+
+```env
+DATABASE_URL="your_database_url"
+JWT_SECRET="your_jwt_secret"
+GEMINI_API_KEY="your_gemini_api_key"
+GEMINI_MODEL="gemini-3.6-flash"
+PORT=7000
+CLIENT_URL="http://localhost:3000"
+```
+
+Never commit your `.env` file.
+
+---
+
+## 5. Database Setup
+
+From the `server` directory:
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
+
+Optional — open Prisma Studio:
+
+```bash
+npx prisma studio
+```
+
+---
+
+## 6. Run Backend
+
+```bash
+cd server
 npm run dev
 ```
 
-Open:
+Backend:
 
+```text
+http://localhost:7000
 ```
+
+---
+
+## 7. Run Frontend
+
+Open another terminal:
+
+```bash
+cd client
+npm run dev
+```
+
+Frontend:
+
+```text
 http://localhost:3000
 ```
 
 ---
 
-# 📸 Screenshots
+# 🔌 API Overview
 
-Coming Soon...
+### Authentication
 
----
+```text
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+GET  /api/v1/auth/profile
+```
 
-# 📈 Future Enhancements
+### Resumes
 
-- AI Mock Interview
-- Resume Score Analyzer
-- ATS Compatibility Checker
-- Portfolio Analytics
-- Custom Domains
-- Dark & Light Themes
-- Team Collaboration
-- Resume Sharing
-- Cover Letter Generator
-- AI Career Suggestions
+```text
+GET    /api/v1/resumes
+GET    /api/v1/resumes/:id
+POST   /api/v1/resumes
+PUT    /api/v1/resumes/:id
+DELETE /api/v1/resumes/:id
+```
 
----
+### AI
 
-# 🤝 Contributing
-
-Contributions are welcome.
-
-If you'd like to improve this project:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Open a Pull Request
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
+```text
+POST /api/v1/ai/summary
+POST /api/v1/ai/experience
+POST /api/v1/ai/project
+POST /api/v1/ai/skills
+POST /api/v1/ai/analyze
+POST /api/v1/ai/match
+POST /api/v1/ai/tailor
+```
 
 ---
 
-# 👨‍💻 Author
+# 🔒 Security
 
-**Alfisha Ansari**
+ResuMind follows several security practices:
 
-Computer Science Engineering Student  
-UI/UX Designer • Full Stack Learner • Product Design Enthusiast
+* JWT authentication
+* Password hashing with bcrypt
+* Protected API routes
+* Resource ownership validation
+* Server-side Gemini API calls
+* Environment-based secrets
+* Input validation
+* Sanitized API errors
+* Anti-fabrication AI rules
+* CORS configuration
+
+Sensitive credentials are never exposed to the client.
 
 ---
 
-⭐ If you like this project, consider giving it a star!
+# 🧪 Production Build
+
+### Frontend
+
+```bash
+cd client
+npm run build
+```
+
+### Backend
+
+```bash
+cd server
+node --check src/server.js
+```
+
+The project has been validated with the Next.js production build and TypeScript checks.
+
+---
+
+# 📌 Project Status
+
+## ✅ Feature Complete
+
+ResuMind currently includes:
+
+* Authentication
+* Resume Builder
+* Resume Templates
+* Autosave
+* PDF Export
+* AI Resume Assistance
+* ATS Analysis
+* Job Description Matching
+* AI Resume Tailoring
+* Portfolio Builder
+* Portfolio Customization
+* Public Portfolio
+* SEO Metadata
+* Responsive UI
+* ResuMind Branding
+
+The current focus is on **stability, testing, deployment, and production readiness**.
+
+---
+
+# 🎯 Product Workflow
+
+```text
+                 RESUMIND
+
+            Create Your Resume
+                    │
+                    ▼
+              AI Enhancement
+                    │
+                    ▼
+              ATS Analysis
+                    │
+                    ▼
+            Job Description
+                 Matching
+                    │
+                    ▼
+            AI Resume Tailoring
+                    │
+                    ▼
+             Portfolio Builder
+                    │
+                    ▼
+            Publish Your Portfolio
+```
+
+---
+
+# 💡 What Makes ResuMind Different?
+
+Most resume builders focus on creating a document.
+
+ResuMind connects the entire career-document workflow:
+
+```text
+Create
+  ↓
+Improve
+  ↓
+Analyze
+  ↓
+Match
+  ↓
+Tailor
+  ↓
+Showcase
+```
+
+A user's resume becomes the central source of information that powers both their optimized resume and personal portfolio.
+
+---
+
+# 👩‍💻 Author
+
+## Alfisha Ansari
+
+Computer Science & Engineering Student
+UI/UX Designer • Product Design Enthusiast • Full-Stack Developer
+
+🌐 **Portfolio:** [alfisha.in](https://www.alfisha.in)
+
+---
+
+## ⭐ If You Like ResuMind
+
+If you find this project useful or interesting, consider giving the repository a ⭐ on GitHub.
+
+---
+
+## 📄 License
+
+This project is developed for educational, portfolio, and demonstration purposes.
+
+````
+
+### One thing I strongly recommend for the GitHub version
+
+Don't leave the README as **100% text**. Since ResuMind is a highly visual product, add a section near the top like:
+
+```md
+## 🖥️ Preview
+
+![ResuMind Dashboard](./screenshots/dashboard.png)
+
+![ResuMind Resume Builder](./screenshots/resume-builder.png)
+
+![ResuMind AI Assistant](./screenshots/ai-assistant.png)
+
+![ResuMind Portfolio](./screenshots/portfolio.png)
+````
+
+That will make the repository feel much more like a **finished product** when someone opens it on GitHub.
