@@ -27,39 +27,166 @@ function getAIClient() {
   });
 }
 
+const sleep = (ms) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+const FALLBACK_GEMINI_MODEL = "gemini-3.5-flash-lite";
+
+function getErrorStatus(err) {
+  return err?.status || err?.statusCode || err?.response?.status;
+}
+
+function isTransientGeminiError(err) {
+  const status = getErrorStatus(err);
+
+  return (
+    status === 500 ||
+    status === 502 ||
+    status === 503 ||
+    status === 504 ||
+    err?.message?.includes("UNAVAILABLE") ||
+    err?.message?.includes("temporarily unavailable") ||
+    err?.message?.includes("high demand")
+  );
+}
+
+async function generateWithModel(ai, model, prompt) {
+  return ai.models.generateContent({
+    model,
+
+    contents: prompt,
+
+    config: {
+      systemInstruction: SYSTEM_INSTRUCTION,
+    },
+  });
+}
+
 async function runPrompt(prompt) {
+  const ai = getAIClient();
+
+  // ---------------------------------------------------------
+  // 1. Try the primary model with bounded exponential backoff
+  // ---------------------------------------------------------
+  const retryDelays = [1500, 3000];
+
+  for (let attempt = 0; attempt <= retryDelays.length; attempt++) {
+    try {
+      const response = await generateWithModel(
+        ai,
+        GEMINI_MODEL,
+        prompt
+      );
+
+      const text = response.text;
+
+      if (!text || !text.trim()) {
+        throw new ApiError(
+          500,
+          "AI provider returned an empty response"
+        );
+      }
+
+      return text.trim();
+    } catch (err) {
+      console.error(
+        `Gemini primary model error (attempt ${attempt + 1}/${retryDelays.length + 1}):`,
+        err
+      );
+
+      const status = getErrorStatus(err);
+
+      // -------------------------------------------------------
+      // Quota / rate-limit errors should not be blindly retried
+      // -------------------------------------------------------
+      if (
+        status === 429 ||
+        err?.message?.includes("quota") ||
+        err?.message?.includes("RESOURCE_EXHAUSTED")
+      ) {
+        throw new ApiError(
+          429,
+          "AI generation quota reached. Please wait a moment before trying again."
+        );
+      }
+
+      // -------------------------------------------------------
+      // Invalid / unavailable model configuration
+      // -------------------------------------------------------
+      if (
+        status === 404 ||
+        err?.message?.includes("NOT_FOUND") ||
+        err?.message?.includes("not found")
+      ) {
+        throw new ApiError(
+          503,
+          "The configured AI model is currently unavailable. Please try again later."
+        );
+      }
+
+      // -------------------------------------------------------
+      // Retry only transient Gemini server errors
+      // -------------------------------------------------------
+      if (
+        !isTransientGeminiError(err) ||
+        attempt === retryDelays.length
+      ) {
+        break;
+      }
+
+      // Add small jitter to avoid synchronized retries
+      const jitter = Math.floor(Math.random() * 500);
+      const delay = retryDelays[attempt] + jitter;
+
+      console.log(
+        `Gemini transient error. Retrying in ${delay}ms...`
+      );
+
+      await sleep(delay);
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 2. Primary model still unavailable → fallback model
+  // ---------------------------------------------------------
+  console.warn(
+    `Primary Gemini model "${GEMINI_MODEL}" unavailable. ` +
+    `Trying fallback model "${FALLBACK_GEMINI_MODEL}".`
+  );
+
   try {
-    const ai = getAIClient();
+    const fallbackResponse = await generateWithModel(
+      ai,
+      FALLBACK_GEMINI_MODEL,
+      prompt
+    );
 
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
+    const fallbackText = fallbackResponse.text;
 
-      contents: prompt,
-
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-      },
-    });
-
-    const text = response.text;
-
-    if (!text || !text.trim()) {
+    if (!fallbackText || !fallbackText.trim()) {
       throw new ApiError(
         500,
         "AI provider returned an empty response"
       );
     }
 
-    return text.trim();
-  } catch (err) {
-    console.error("Gemini API Error:", err);
+    console.log(
+      `Gemini fallback succeeded using "${FALLBACK_GEMINI_MODEL}".`
+    );
 
-    const status = err?.status || err?.statusCode;
+    return fallbackText.trim();
+  } catch (fallbackErr) {
+    console.error(
+      `Gemini fallback model error (${FALLBACK_GEMINI_MODEL}):`,
+      fallbackErr
+    );
+
+    const fallbackStatus = getErrorStatus(fallbackErr);
 
     if (
-      status === 429 ||
-      err?.message?.includes("quota") ||
-      err?.message?.includes("RESOURCE_EXHAUSTED")
+      fallbackStatus === 429 ||
+      fallbackErr?.message?.includes("quota") ||
+      fallbackErr?.message?.includes("RESOURCE_EXHAUSTED")
     ) {
       throw new ApiError(
         429,
@@ -67,14 +194,10 @@ async function runPrompt(prompt) {
       );
     }
 
-    if (
-      status === 404 ||
-      err?.message?.includes("NOT_FOUND") ||
-      err?.message?.includes("not found")
-    ) {
+    if (isTransientGeminiError(fallbackErr)) {
       throw new ApiError(
         503,
-        "The configured AI model is currently unavailable. Please try again later."
+        "The AI service is temporarily busy. Please try again in a few seconds."
       );
     }
 
