@@ -2,7 +2,7 @@ const { GoogleGenAI } = require("@google/genai");
 const ApiError = require("../utils/ApiError");
 
 const GEMINI_MODEL =
-  process.env.GEMINI_MODEL || "gemini-3.6-flash";
+  process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
 
 const SYSTEM_INSTRUCTION = `You are a world-class executive career coach and technical resume consultant.
 STRICT ETHICAL & QUALITY RULES:
@@ -30,7 +30,7 @@ function getAIClient() {
 const sleep = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-const FALLBACK_GEMINI_MODEL = "gemini-3.5-flash-lite";
+const FALLBACK_GEMINI_MODEL = "gemini-3.6-flash";
 
 function getErrorStatus(err) {
   return err?.status || err?.statusCode || err?.response?.status;
