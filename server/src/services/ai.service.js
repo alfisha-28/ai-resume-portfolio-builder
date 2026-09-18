@@ -100,15 +100,44 @@ async function runPrompt(prompt) {
       // Quota / rate-limit errors should not be blindly retried
       // -------------------------------------------------------
       if (
-        status === 429 ||
-        err?.message?.includes("quota") ||
-        err?.message?.includes("RESOURCE_EXHAUSTED")
-      ) {
-        throw new ApiError(
-          429,
-          "AI generation quota reached. Please wait a moment before trying again."
-        );
-      }
+  status === 429 ||
+  err?.message?.includes("quota") ||
+  err?.message?.includes("RESOURCE_EXHAUSTED")
+) {
+  const errorMessage = String(err?.message || "").toLowerCase();
+
+  // Daily/project quota exhaustion should not be retried.
+  const isDailyQuota =
+  errorMessage.includes("daily") ||
+  errorMessage.includes("quota_exceeded") ||
+  errorMessage.includes("requests per day") ||
+  errorMessage.includes("tokens per day") ||
+  errorMessage.includes("perdayperprojectpermodel") ||
+  errorMessage.includes("generate_content_free_tier_requests");
+
+  if (isDailyQuota) {
+    throw new ApiError(
+      429,
+      "AI generation quota reached. Please wait until the quota resets or try again later."
+    );
+  }
+
+  // Otherwise treat this as a temporary rate-limit condition.
+  if (attempt < retryDelays.length) {
+    const jitter = Math.floor(Math.random() * 500);
+    const delay = retryDelays[attempt] + jitter;
+
+    console.log(
+      `Gemini rate limit reached. Retrying in ${delay}ms...`
+    );
+
+    await sleep(delay);
+    continue;
+  }
+
+  // Primary model exhausted its temporary rate-limit retries.
+  break;
+}
 
       // -------------------------------------------------------
       // Invalid / unavailable model configuration
