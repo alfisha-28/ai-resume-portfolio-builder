@@ -6,14 +6,18 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewAchievements() {
   const { resumeData } = useResume();
 
-  if (!resumeData.achievements.length) return null;
+  const validAchievements = resumeData.achievements.filter(
+    (achievement) => achievement.title?.trim() || achievement.description?.trim()
+  );
+
+  if (!validAchievements.length) return null;
 
   return (
     <>
       <SectionTitle title="Achievements" />
 
       <div className="space-y-4">
-        {resumeData.achievements.map((achievement) => (
+        {validAchievements.map((achievement) => (
           <div key={achievement.id}>
             <h3 className="font-semibold">
               {achievement.title}

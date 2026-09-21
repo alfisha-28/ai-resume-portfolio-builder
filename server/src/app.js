@@ -13,9 +13,20 @@ app.set("trust proxy", 1);
 
 app.use(helmet());
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "https://resumind.alfisha.in",
+  "http://localhost:3000",
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );

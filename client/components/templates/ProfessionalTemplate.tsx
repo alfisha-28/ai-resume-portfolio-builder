@@ -6,6 +6,22 @@ import SectionTitle from "../resume/SectionTitle";
 export default function ProfessionalTemplate() {
   const { resumeData } = useResume();
 
+  const validSkills = resumeData.skills.filter((s) => s.name?.trim());
+  const validLanguages = resumeData.languages.filter((l) => l.name?.trim());
+  const validCertifications = resumeData.certifications.filter(
+    (c) => c.name?.trim() || c.organization?.trim()
+  );
+  const validExperience = resumeData.experience.filter(
+    (e) => e.jobTitle?.trim() || e.company?.trim()
+  );
+  const validEducation = resumeData.education.filter(
+    (e) => e.degree?.trim() || e.institution?.trim()
+  );
+  const validProjects = resumeData.projects.filter((p) => p.title?.trim());
+  const validAchievements = resumeData.achievements.filter(
+    (a) => a.title?.trim() || a.description?.trim()
+  );
+
   return (
     <div className="bg-white w-[210mm] min-h-[297mm] mx-auto shadow-xl flex">
       {/* Left sidebar */}
@@ -34,11 +50,11 @@ export default function ProfessionalTemplate() {
         </div>
 
         {/* Skills */}
-        {resumeData.skills.length > 0 && (
+        {validSkills.length > 0 && (
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Skills</p>
             <div className="flex flex-wrap gap-1.5">
-              {resumeData.skills.map((s) => (
+              {validSkills.map((s) => (
                 <span key={s.id} className="px-2 py-0.5 bg-slate-700 text-slate-200 text-xs rounded">
                   {s.name}
                 </span>
@@ -48,11 +64,11 @@ export default function ProfessionalTemplate() {
         )}
 
         {/* Languages */}
-        {resumeData.languages.length > 0 && (
+        {validLanguages.length > 0 && (
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Languages</p>
             <div className="space-y-1">
-              {resumeData.languages.map((l) => (
+              {validLanguages.map((l) => (
                 <div key={l.id} className="flex justify-between text-xs text-slate-300">
                   <span>{l.name}</span>
                   <span className="text-slate-400">{l.proficiency}</span>
@@ -63,11 +79,11 @@ export default function ProfessionalTemplate() {
         )}
 
         {/* Certifications */}
-        {resumeData.certifications.length > 0 && (
+        {validCertifications.length > 0 && (
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Certifications</p>
             <div className="space-y-2">
-              {resumeData.certifications.map((c) => (
+              {validCertifications.map((c) => (
                 <div key={c.id} className="text-xs text-slate-300">
                   <p className="font-medium">{c.name}</p>
                   <p className="text-slate-400">{c.organization}</p>
@@ -87,11 +103,11 @@ export default function ProfessionalTemplate() {
           </div>
         )}
 
-        {resumeData.experience.length > 0 && (
+        {validExperience.length > 0 && (
           <div className="mb-6">
             <SectionTitle title="Experience" />
             <div className="space-y-5">
-              {resumeData.experience.map((exp) => (
+              {validExperience.map((exp) => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-start">
                     <div>
@@ -118,11 +134,11 @@ export default function ProfessionalTemplate() {
           </div>
         )}
 
-        {resumeData.education.length > 0 && (
+        {validEducation.length > 0 && (
           <div className="mb-6">
             <SectionTitle title="Education" />
             <div className="space-y-4">
-              {resumeData.education.map((edu) => (
+              {validEducation.map((edu) => (
                 <div key={edu.id} className="flex justify-between items-start">
                   <div>
                     <p className="font-semibold text-sm text-gray-900">{edu.degree}</p>
@@ -138,11 +154,11 @@ export default function ProfessionalTemplate() {
           </div>
         )}
 
-        {resumeData.projects.length > 0 && (
+        {validProjects.length > 0 && (
           <div className="mb-6">
             <SectionTitle title="Projects" />
             <div className="space-y-4">
-              {resumeData.projects.map((p) => (
+              {validProjects.map((p) => (
                 <div key={p.id}>
                   <p className="font-semibold text-sm text-gray-900">{p.title}</p>
                   {p.technologies && (
@@ -157,11 +173,11 @@ export default function ProfessionalTemplate() {
           </div>
         )}
 
-        {resumeData.achievements.length > 0 && (
+        {validAchievements.length > 0 && (
           <div>
             <SectionTitle title="Achievements" />
             <div className="space-y-2">
-              {resumeData.achievements.map((a) => (
+              {validAchievements.map((a) => (
                 <div key={a.id}>
                   <p className="font-semibold text-sm text-gray-900">{a.title}</p>
                   {a.description && <p className="text-xs text-gray-600">{a.description}</p>}

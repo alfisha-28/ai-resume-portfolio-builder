@@ -457,7 +457,7 @@ export default function PortfolioEditPage() {
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
                 </div>
                 <div className="px-3 py-0.5 rounded-md bg-white border border-slate-200 text-[11px] font-mono text-slate-500 truncate max-w-xs">
-                  https://resumind.app/portfolio/{portfolio.username}
+                  https://resumind.alfisha.in/portfolio/{portfolio.username}
                 </div>
                 <div className="text-[10px] uppercase font-bold text-slate-400">Live Preview</div>
               </div>

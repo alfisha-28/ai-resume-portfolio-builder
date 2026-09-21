@@ -6,14 +6,16 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewSkills() {
   const { resumeData } = useResume();
 
-  if (!resumeData.skills.length) return null;
+  const validSkills = resumeData.skills.filter((skill) => skill.name?.trim());
+
+  if (!validSkills.length) return null;
 
   return (
     <>
       <SectionTitle title="Skills" />
 
       <div className="flex flex-wrap gap-2">
-        {resumeData.skills.map((skill) => (
+        {validSkills.map((skill) => (
           <span
             key={skill.id}
             className="

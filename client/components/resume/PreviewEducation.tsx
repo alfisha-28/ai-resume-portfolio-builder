@@ -6,14 +6,18 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewEducation() {
   const { resumeData } = useResume();
 
-  if (!resumeData.education.length) return null;
+  const validEducation = resumeData.education.filter(
+    (edu) => edu.degree?.trim() || edu.institution?.trim()
+  );
+
+  if (!validEducation.length) return null;
 
   return (
     <>
       <SectionTitle title="Education" />
 
       <div className="space-y-5">
-        {resumeData.education.map((edu) => (
+        {validEducation.map((edu) => (
           <div
             key={edu.id}
             className="border-l-2 border-blue-600 pl-4"

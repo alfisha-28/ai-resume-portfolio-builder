@@ -6,14 +6,18 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewLanguages() {
   const { resumeData } = useResume();
 
-  if (!resumeData.languages.length) return null;
+  const validLanguages = resumeData.languages.filter(
+    (language) => language.name?.trim()
+  );
+
+  if (!validLanguages.length) return null;
 
   return (
     <>
       <SectionTitle title="Languages" />
 
       <div className="grid grid-cols-2 gap-3">
-        {resumeData.languages.map((language) => (
+        {validLanguages.map((language) => (
           <div
             key={language.id}
             className="flex justify-between border-b border-gray-200 pb-1"

@@ -6,14 +6,18 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewExperience() {
   const { resumeData } = useResume();
 
-  if (!resumeData.experience.length) return null;
+  const validExperience = resumeData.experience.filter(
+    (exp) => exp.jobTitle?.trim() || exp.company?.trim()
+  );
+
+  if (!validExperience.length) return null;
 
   return (
     <>
       <SectionTitle title="Experience" />
 
       <div className="space-y-6">
-        {resumeData.experience.map((exp) => (
+        {validExperience.map((exp) => (
           <div
             key={exp.id}
             className="border-l-2 border-blue-600 pl-4"

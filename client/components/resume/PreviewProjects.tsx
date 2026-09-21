@@ -6,14 +6,18 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewProjects() {
   const { resumeData } = useResume();
 
-  if (!resumeData.projects.length) return null;
+  const validProjects = resumeData.projects.filter(
+    (project) => project.title?.trim()
+  );
+
+  if (!validProjects.length) return null;
 
   return (
     <>
       <SectionTitle title="Projects" />
 
       <div className="space-y-6">
-        {resumeData.projects.map((project) => (
+        {validProjects.map((project) => (
           <div
             key={project.id}
             className="border-l-2 border-blue-600 pl-4"

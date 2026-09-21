@@ -6,14 +6,18 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewCertifications() {
   const { resumeData } = useResume();
 
-  if (!resumeData.certifications.length) return null;
+  const validCertifications = resumeData.certifications.filter(
+    (cert) => cert.name?.trim() || cert.organization?.trim()
+  );
+
+  if (!validCertifications.length) return null;
 
   return (
     <>
       <SectionTitle title="Certifications" />
 
       <div className="space-y-4">
-        {resumeData.certifications.map((cert) => (
+        {validCertifications.map((cert) => (
           <div
             key={cert.id}
             className="border-l-2 border-blue-600 pl-4"

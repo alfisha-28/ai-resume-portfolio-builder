@@ -6,14 +6,18 @@ import SectionTitle from "./SectionTitle";
 export default function PreviewInterests() {
   const { resumeData } = useResume();
 
-  if (!resumeData.interests.length) return null;
+  const validInterests = resumeData.interests.filter(
+    (interest) => interest.name?.trim()
+  );
+
+  if (!validInterests.length) return null;
 
   return (
     <>
       <SectionTitle title="Interests" />
 
       <div className="flex flex-wrap gap-2">
-        {resumeData.interests.map((interest) => (
+        {validInterests.map((interest) => (
           <span
             key={interest.id}
             className="
