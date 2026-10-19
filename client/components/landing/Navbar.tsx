@@ -13,18 +13,18 @@ export default function Navbar() {
         {/* ResuMind Brand */}
         <Link
           href="/"
-          className="flex items-center gap-2 sm:gap-3 group focus:outline-hidden shrink-0 min-w-0"
+          className="flex items-center gap-2.5 sm:gap-3 group focus:outline-hidden shrink-0"
           aria-label="ResuMind Home"
         >
           <img
             src="/logos/logo.png"
             alt="ResuMind Logo"
-            className="w-8 h-8 sm:w-11 sm:h-11 object-contain shrink-0 group-hover:scale-105 transition-transform"
+            className="w-9 h-9 sm:w-11 sm:h-11 object-contain shrink-0 group-hover:scale-105 transition-transform"
           />
           <img
             src="/logos/wordmarkDark.png"
             alt="ResuMind"
-            className="h-6 sm:h-9 w-auto object-contain shrink-0"
+            className="h-8 sm:h-9 w-auto object-contain shrink-0 hidden sm:block"
           />
         </Link>
 
